@@ -40,9 +40,10 @@ class LoginController extends Controller
         $user = Auth::user(); 
         // user is admin.
         if ($user->role == 1) {
-            
-            return redirect()->route('admin');
+            return redirect()->route('admins.index');
         }
+        
+        return redirect()->route('blogs.index');
     }
     
 
