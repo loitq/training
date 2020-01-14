@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name'     => "loitq",
             'email'    => "loitq@lifull-tech.vn",
-            'role'     => 1,
+            'role'     => \App\User::ADMIN,
             'password' => Hash::make("lifull@123"),
         ]);
 
@@ -20,6 +20,7 @@ class UsersTableSeeder extends Seeder
             'name'     => "user",
             'email'    => "user@lifull-tech.vn",
             'password' => Hash::make("lifull@123"),
+            'role'     => \App\User::USER,
         ]);
     }
 }

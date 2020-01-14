@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->unsignedTinyInteger('role')->default(2);
+            $table->unsignedTinyInteger('role')->default(\App\User::USER); // default role amdin
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

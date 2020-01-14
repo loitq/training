@@ -24,15 +24,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController@index');
 
     //Route Admin
-    Route::namespace('Admin')->group(function () {
+    Route::group([
+        'prefix' => 'admin',
+        'namespace' => 'Admin'
+    ], function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
-        Route::get('/', 'AdminController@index')->name('admins.index');
+        Route::get('/', 'AdminController@index')->name('admin.index');
     });
 
-     //Route User
-     Route::namespace('User')->group(function () {
+    //Route User
+    Route::namespace('User')->group(function () {
         // Controllers Within The "App\Http\Controllers\User" Namespace
-        Route::get('/', 'BlogController@index')->name('blogs.index');
+        Route::get('/', 'BlogController@index')->name('blog.index');
     });
 });
-

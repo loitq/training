@@ -36,17 +36,16 @@ class LoginController extends Controller
      * @return Response
      */
     public function authenticated()
-    { 
-        $user = Auth::user(); 
+    {
+        $user = Auth::user();
         // user is admin.
-        if ($user->role == 1) {
-            return redirect()->route('admins.index');
+        if ($user->role === \App\User::ADMIN) {
+            return redirect()->route('admin.index');
         }
         
-        return redirect()->route('blogs.index');
+        return redirect()->route('blog.index');
     }
     
-
     /**
      * Create a new controller instance.
      *
