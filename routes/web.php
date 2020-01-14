@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/list', function () {
+Route::get('/admin/user/list', function () {
     return view('admin/user/list');
+});
+
+Route::get('admin/user/create', function () {
+    return view('admin/user/create');
+});
+
+Route::get('/admin/user/edit', function () {
+    return view('admin/user/edit');
 });
