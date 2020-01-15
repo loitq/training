@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     ], function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
         Route::get('/', 'AdminController@index')->name('admin.index');
+        Route::get('/users', 'AdminController@users')->name('admin.users');
+        Route::get('/blogs', 'AdminController@blogs')->name('admin.blogs');
     });
 
     //Route User
