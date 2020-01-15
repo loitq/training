@@ -17,7 +17,7 @@ class CreateBlogsTable extends Migration
             $table->bigInteger('user_id');
             $table->string('title');
             $table->text('content');
-            $table->string('image_urls');
+            $table->string('image_urls')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
