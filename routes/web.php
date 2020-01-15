@@ -26,3 +26,30 @@ Route::get('admin/user/create', function () {
 Route::get('/admin/user/edit', function () {
     return view('admin/user/edit');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware('auth')->group(function () {
+    // Route Dashboard
+    Route::get('/', 'DashboardController@index');
+
+    //Route Admin
+    Route::group([
+        'prefix' => 'admin',
+        'namespace' => 'Admin'
+    ], function () {
+        // Controllers Within The "App\Http\Controllers\Admin" Namespace
+        Route::get('/', 'AdminController@index')->name('admin.index');
+        Route::get('/users', 'AdminController@users')->name('admin.users');
+        Route::get('/blogs', 'AdminController@blogs')->name('admin.blogs');
+    });
+
+    //Route User
+    Route::namespace('User')->group(function () {
+        // Controllers Within The "App\Http\Controllers\User" Namespace
+        Route::get('/', 'BlogController@index')->name('blog.index');
+    });
+
+});

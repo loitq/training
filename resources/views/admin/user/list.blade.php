@@ -32,20 +32,12 @@
                                 </thead>
                                 <tbody>
                                     <tr class="odd gradeX">
-                                        <td>1</td>
-                                        <td>Phan Quoc Tuan</td>
-                                        <td>tuanpq@lifull-tech.vn</td>
-                                        <td class="center">123456</td>
-                                        <td class="center"><a href="">Edit</a></td>
-                                        <td class="center"><a href="">Delete</a></td>
-                                    </tr>
-                                    <tr class="even gradeC">
-                                        <td>2</td>
-                                        <td>Nguyen Tien Thinh</td>
-                                        <td>Thinhnt@lifull-tech.vn</td>
-                                        <td class="center">123456</td>
-                                        <td class="center"><a href="">Edit</a></td>
-                                        <td class="center"><a href="">Delete</a></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="center"></td>
+                                        <td class="center"><a href=""></a></td>
+                                        <td class="center"><a href=""></a></td>
                                     </tr>
                                 </tbody>
                             </table>
