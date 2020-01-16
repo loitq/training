@@ -20,7 +20,6 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('role')->default(\App\User::USER); // default role user
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('role');
             $table->rememberToken();
             $table->timestamps();
         });

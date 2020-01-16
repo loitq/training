@@ -15,18 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/user/list', function () {
-    return view('admin/user/list');
-});
-
-Route::get('admin/user/create', function () {
-    return view('admin/user/create');
-});
-
-Route::get('/admin/user/edit', function () {
-    return view('admin/user/edit');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -43,6 +31,8 @@ Route::middleware('auth')->group(function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
         Route::get('/', 'AdminController@index')->name('admin.index');
         Route::get('/users', 'AdminController@users')->name('admin.users');
+        Route::get('/user/create', 'AdminController@userCreate')->name('admin.user.create');
+        Route::get('/user/edit', 'AdminController@userEdit')->name('admin.user.update');
         Route::get('/blogs', 'AdminController@blogs')->name('admin.blogs');
     });
 
@@ -51,5 +41,4 @@ Route::middleware('auth')->group(function () {
         // Controllers Within The "App\Http\Controllers\User" Namespace
         Route::get('/', 'BlogController@index')->name('blog.index');
     });
-
 });
