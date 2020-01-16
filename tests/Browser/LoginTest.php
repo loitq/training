@@ -143,9 +143,8 @@ class LoginTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser->loginAs(User::find(2))
-                    ->script('event.preventDefault();
-                    document.getElementById("logout-form").submit();')
-                    ->assertPathIs('/login');
+                    ->logout()
+                    ->assertGuest();
         });
     }
 
@@ -164,5 +163,34 @@ class LoginTest extends DuskTestCase
                     ->press('Login')
                     ->assertPathIs('/admin');
         });
+    }
+
+    /**
+    * Test admin logout.
+    */
+    public function testAdminLogout()
+    {
+        $this->browse(function ($browser) {
+            $browser->loginAs(User::find(1))
+                    ->logout()
+                    ->assertGuest();
+        });
+    }
+
+    /**
+    * A basic browser user login, remove database, reload page.
+    */
+    public function testUserLoginAfterRemoveData()
+    {
+        // Call test user login
+        $this->testUserLogin();
+        // Destroy user
+        User::destroy(2);
+        // Redirect path
+        $this->browse(function ($browser) {
+            $browser->visit('/')
+                    ->assertPathIs('/login');
+        });
+
     }
 }

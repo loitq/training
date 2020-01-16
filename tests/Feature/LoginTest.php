@@ -11,11 +11,18 @@ class LoginTest extends TestCase
     /**
     * A basic feature test user view login.
     **/
-    public function test_user_can_view_a_login_form()
+    public function testViewLogin()
     {
         $response = $this->get('/login');
-        $response->assertSuccessful();
         $response->assertViewIs('auth.login');
     }
 
+    /**
+    * A basic feature test user view login.
+    **/
+    public function testViewLogin()
+    {
+        $response = $this->get('/login');
+        $response->assertViewIs('auth.login');
+    }
 }
