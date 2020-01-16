@@ -25,7 +25,6 @@
                                         <th>ID</th>
                                         <th>User</th>
                                         <th>Email</th>
-                                        <th>Password</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -35,7 +34,6 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td class="center"></td>
                                         <td class="center"><a href=""></a></td>
                                         <td class="center"><a href=""></a></td>
                                     </tr>

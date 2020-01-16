@@ -18,7 +18,7 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
-    public function users()
+    public function userList()
     {
         return view('admin.user.list');
     }
