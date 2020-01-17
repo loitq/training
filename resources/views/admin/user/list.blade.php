@@ -25,12 +25,16 @@
                                         <th>ID</th>
                                         <th>User</th>
                                         <th>Email</th>
+                                        <th>Only see</th>
+                                        <th>Delete blog</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="odd gradeX">
+                                        <td></td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>

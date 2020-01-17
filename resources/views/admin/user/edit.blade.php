@@ -32,6 +32,14 @@
                                         <label>Password</label>
                                         <input class="form-control" type="password">
                                     </div>
+                                    <div class="form-group">
+                                        <label>Only see blog</label>
+                                        <input class="form-control" type="checkbox">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Can delete blog</label>
+                                        <input class="form-control" type="checkbox">
+                                    </div>
                                     <button type="submit" class="btn btn-default">
                                         Submit
                                     </button>

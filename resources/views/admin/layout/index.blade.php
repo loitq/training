@@ -51,8 +51,6 @@
     <!-- SB Admin Scripts - Include with every page -->
     <script src="/asset/admin/js/sb-admin.js">
     </script>
-
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 </body>
 
 </html>
