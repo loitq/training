@@ -25,11 +25,11 @@ class AdminController extends Controller
 
     public function userCreate()
     {
-        return view('admin.user.create');
+        return view('admin.user.createOrUpdate');
     }
 
     public function userEdit()
     {
-        return view('admin.user.edit');
+        return view('admin.user.createOrUpdate');
     }
 }

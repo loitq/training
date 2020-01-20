@@ -33,7 +33,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/user/list', 'AdminController@userList')->name('admin.users');
         Route::get('/user/create', 'AdminController@userCreate')->name('admin.user.create');
         Route::get('/user/edit', 'AdminController@userEdit')->name('admin.user.update');
-        //Route::get('/blogs', 'AdminController@blogs')->name('admin.blogs');
     });
 
     //Route User
