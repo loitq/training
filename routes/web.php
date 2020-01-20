@@ -31,12 +31,14 @@ Route::middleware('auth')->group(function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
         Route::get('/', 'AdminController@index')->name('admin.index');
         Route::get('/users', 'AdminController@users')->name('admin.users');
-        Route::get('/blogs', 'AdminController@blogs')->name('admin.blogs');
+        // Route::get('/blogs', 'AdminController@blogs')->name('admin.blogs');
     });
 
     //Route User
     Route::namespace('User')->group(function () {
         // Controllers Within The "App\Http\Controllers\User" Namespace
-        Route::get('/', 'BlogController@index')->name('blog.index');
+        // Route::get('/', 'BlogController@index')->name('blog.index');
     });
 });
+
+Route::resource('/blog', 'BlogController');
