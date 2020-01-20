@@ -40,3 +40,5 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'BlogController@index')->name('blog.index');
     });
 });
+
+Route::resource('/blog', 'BlogController');
