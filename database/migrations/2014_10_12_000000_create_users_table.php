@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->unsignedTinyInteger('role')->default(\App\User::USER); // default role user
+            $table->unsignedTinyInteger('can_delete')->default(0); // default 0: can't delete blog, 1: can delete blog
+            $table->unsignedTinyInteger('can_see')->default(0); // default 0: can't see blog, 1: can see blog
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
