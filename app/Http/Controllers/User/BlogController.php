@@ -24,10 +24,14 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::all();
-        $canDelete = $this->defineUser()->can_delete;
+        if ($this->defineUser()->can_delete === Blog::IS_TRUE) {
+            $canDelete = true;
+        }else {
+            $canDelete = false;
+        }
         $canSee = $this->defineUser()->can_see;
-        if($canSee == true)
-            return view('blog/index', ['blogs'=>$blogs, 'canDelete'=>$canDelete, 'canSee'=>$canSee]);
+        if($canSee === Blog::IS_TRUE)
+            return view('blog/index', ['blogs'=>$blogs, 'canDelete'=>$canDelete]);
         else
             return redirect()->back();
     }

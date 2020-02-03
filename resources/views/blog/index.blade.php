@@ -54,7 +54,7 @@
                         <form action="" name="form-edit" method="GET">
                             <button type="submit" class="btn btn-info">Edit</button>
                         </form>
-                        @if($canDelete == true)
+                        @if($canDelete === true)
                             <form action="" name="form-edit" method="DELETE">
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
