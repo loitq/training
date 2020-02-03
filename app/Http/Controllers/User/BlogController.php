@@ -55,4 +55,53 @@ class BlogController extends Controller
         $blog->save();
         return redirect()->back();
     }
+
+    /**
+     * Delete one blog.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) 
+    {
+        if ($this->defineUser()->can_delete === Blog::IS_TRUE) {
+            $blog = Blog::find($id);
+            $blog->delete();
+        }
+        return redirect()->back();
+    }
+
+    /**
+     * Edit view blog.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $blog = Blog::find($id);
+        if (isset($blog)) 
+            return view('blog/edit', ['blog' => $blog]);
+        else
+            return redirect()->back();
+    }
+
+    /**
+     * Update one blog.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request ,$id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+        $blog = Blog::find($id);
+        $blog->title = $request->title;
+        $blog->content = $request->content;
+        $blog->save();
+        return redirect()->route('blog.index');
+    }
 }

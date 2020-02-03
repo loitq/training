@@ -51,13 +51,34 @@
                     <td>{{$blog->user_id}}</td>
                     <td>{{$blog->title}}</td>
                     <td>
-                        <form action="" name="form-edit" method="GET">
+                        <form action="{{route('blog.edit', ['id' => $blog->id])}}" name="form-edit" method="GET">
                             <button type="submit" class="btn btn-info">Edit</button>
                         </form>
                         @if($canDelete === true)
-                            <form action="" name="form-edit" method="DELETE">
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{$blog->id}}">Delete</button>
+                            <form action="{{route('blog.destroy',['id' => $blog->id])}}" name="form-edit" method="GET">
+                            <!-- Modal -->
+                                <div class="modal fade" id="deleteModal{{$blog->id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Warning</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Delete this blog?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
+                            
                         @endif
                     </td>
                 </tr>
