@@ -22,9 +22,9 @@ role="navigation" style="margin-bottom: 0">
                 <li><a href="#"><i class="fa fa-user fa-fw"></i>User Profile</a>
                 </li>
                 <li class="divider"></li>
-                <li><a href="login.html">
-                    <i class="fa fa-sign-out fa-fw"></i>Logout</a>
-                </li>
+                    <li><a href="/admin/user/logout">
+                        <i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                    </li>
             </ul>
             <!-- /.dropdown-user -->
         </li>

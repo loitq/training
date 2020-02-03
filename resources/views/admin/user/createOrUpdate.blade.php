@@ -14,34 +14,56 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
+                        @if(count($errors) > 0)
+                            <div class="alert alert-danger">
+                                @foreach($errors->all() as $err)
+                                    <strong>{{$err}}</strong><br>
+                                @endforeach
+                            </div>
+                        @endif
+                        @if(session('error'))
+                            <div class="alert alert-danger">
+                                <strong>{{session('error')}}</strong>
+                            </div>
+                        @endif
+                        @if (session('message'))
+                        <div class="alert alert-info alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <p>{{ session('message') }}</p>
+                        </div>
+                        @endif
                         <div class="row">
                             <div class="col-lg-6">
-                                <form role="form">
+                                @if (isset($edit))
+                                    <form action="/admin/user/edit/{{ $edit->id }}" method="POST" role="form">
+                                @else
+                                    <form action="/admin/user/create" method="POST" role="form">
+                                @endif
+                                    {{ csrf_field() }}
                                     <div class="form-group">
                                         <label>Username</label>
-                                        <input class="form-control">
+                                        <input class="form-control" name="username" @if (isset($edit))  value="{{ $edit->name }}" @endif>
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input class="form-control" type="email">
+                                        <input class="form-control" type="email" name="email" @if (isset($edit)) value="{{ $edit->email }}" @endif>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Password</label>
-                                        <input class="form-control" type="password">
-                                    </div>
+                                    @if (!isset($edit))
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            <input class="form-control" type="password" name="password">
+                                        </div>
+                                    @endif
                                     <div class="form-group">
                                         <label>Only see blog</label>
-                                        <input class="form-control" type="checkbox">
+                                        <input class="form-control" type="checkbox" name="can_see" @if (isset($edit)) value="{{ $edit->can_see }}" @if ($edit->can_see == true) checked="checked" @endif @endif>
                                     </div>
                                     <div class="form-group">
                                         <label>Can delete blog</label>
-                                        <input class="form-control" type="checkbox">
+                                        <input class="form-control" type="checkbox" name="can_delete" @if (isset($edit)) value="{{ $edit->can_delete }}" @if ($edit->can_delete == true) checked="checked" @endif @endif>
                                     </div>
                                     <button type="submit" class="btn btn-default">
                                         Submit
-                                    </button>
-                                    <button type="reset" class="btn btn-default">
-                                        Reset
                                     </button>
                                 </form>
                             </div>
