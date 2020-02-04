@@ -39,7 +39,6 @@
         <thead>
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">User ID</th>
                 <th scope="col">Title</th>
                 <th scope="col">Action</th>
             </tr>
@@ -49,7 +48,6 @@
                 @foreach ($blogs as $blog)
                     <tr>
                         <td scope="row">{{$blog->id}}</td>
-                        <td>{{$blog->user_id}}</td>
                         <td>{{$blog->title}}</td>
                         <td>
                             <form action="{{route('blog.edit', ['id' => $blog->id])}}" name="form-edit" method="GET">
