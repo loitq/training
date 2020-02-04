@@ -5,7 +5,7 @@
             <li>
                 <a href="/admin"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
             </li>
-            @if ( auth()->user()->role == 1)
+            @if (auth()->user()->role === $roleAdmin)
             <li>
                 <a href="">
                     <i class="fa fa-table fa-fw"></i>User 

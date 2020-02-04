@@ -56,11 +56,11 @@
                                     @endif
                                     <div class="form-group">
                                         <label>Only see blog</label>
-                                        <input class="form-control" type="checkbox" name="can_see" @if (isset($edit)) value="{{ $edit->can_see }}" @if ($edit->can_see == true) checked="checked" @endif @endif>
+                                        <input class="form-control" type="checkbox" name="can_see" @if (isset($edit)) value="{{ $edit->can_see }}" @if (!empty($edit->can_see)) checked="checked" @endif @endif>
                                     </div>
                                     <div class="form-group">
                                         <label>Can delete blog</label>
-                                        <input class="form-control" type="checkbox" name="can_delete" @if (isset($edit)) value="{{ $edit->can_delete }}" @if ($edit->can_delete == true) checked="checked" @endif @endif>
+                                        <input class="form-control" type="checkbox" name="can_delete" @if (isset($edit)) value="{{ $edit->can_delete }}" @if (!empty($edit->can_delete)) checked="checked" @endif @endif>
                                     </div>
                                     <button type="submit" class="btn btn-default">
                                         Submit

@@ -39,7 +39,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.user.dashboard');
+        $roleAdmin = \App\User::ADMIN;
+        return view('admin.user.dashboard', ['roleAdmin' => $roleAdmin]);
     }
 
     /**
@@ -50,9 +51,15 @@ class AdminController extends Controller
     public function userList()
     {
         $users = Auth::user();
-        if ($users->role == \App\User::ADMIN) {
-            $users = User::where('role', 2)->paginate(3);
-            return view('admin.user.list', ['users' => $users]);
+        $roleAdmin = \App\User::ADMIN;
+        if ($users->role === \App\User::ADMIN) {
+            $users = User::where('role', \App\User::ROLE_USER)
+                ->paginate(\App\User::PAGINATE_USER);
+            return view(
+                'admin.user.list', [
+                'users' => $users, 'roleAdmin' => $roleAdmin
+                ]
+            );
         } else {
             return redirect()->back();
         }
@@ -65,7 +72,8 @@ class AdminController extends Controller
      */
     public function userCreate()
     {
-        return view('admin.user.createOrUpdate');
+        $roleAdmin = \App\User::ADMIN;
+        return view('admin.user.createOrUpdate', ['roleAdmin' => $roleAdmin]);
     }
 
     /**
@@ -80,12 +88,8 @@ class AdminController extends Controller
         $this->validate(
             $request, [
             'username' => 'required',
-            'email' => 'required',
-            'password' => 'required', 
-            ], [ 
-            'username.required' => 'Username required',
-            'email.required' => 'Email required',
-            'password.required' => 'Password required', 
+            'email' => 'required|unique:users,email',
+            'password' => 'required',
             ]
         );
 
@@ -93,13 +97,13 @@ class AdminController extends Controller
         $user->name = $request->username;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        $user->can_see = true; // true can see blog, false can't see blog
-        $user->can_delete = true; // true can delete blog, false can't delete blog
+        $user->can_see = \App\User::IS_TRUE;
+        $user->can_delete = \App\User::IS_TRUE;
         if ($request->can_see == null) {
-            $user->can_see = false;
+            $user->can_see = \App\User::IS_FALSE;
         }
         if ($request->can_delete == null) {
-            $user->can_delete = false;
+            $user->can_delete = \App\User::IS_FALSE;
         }
         $user->save();
         return redirect()->back()->with('message', 'Create user success !');
@@ -115,7 +119,12 @@ class AdminController extends Controller
     public function userEdit($id)
     {
         $edit = User::find($id);
-        return view('admin.user.createOrUpdate', ['edit' => $edit]);
+        $roleAdmin = \App\User::ADMIN;
+        return view(
+            'admin.user.createOrUpdate', [
+            'edit' => $edit, 'roleAdmin' => $roleAdmin
+            ]
+        );
     }
 
     /**
@@ -128,26 +137,24 @@ class AdminController extends Controller
      */
     public function handleUserEdit(Request $request, $id)
     {
+        $user = User::find($id);
+
         $this->validate(
             $request, [
             'username' => 'required',
-            'email' => 'required',
-            ], [ 
-            'username.required' => 'Username required', 
-            'email.required'=> 'Email required',
+            'email' => 'required|unique:users,email,'.$user->id,
             ]
         );
 
-        $user = User::find($id);
         $user->name = $request->username;
         $user->email = $request->email;
-        $user->can_see = true; // true can see blog, false can't see blog
-        $user->can_delete = true; // true can delete blog, false can't delete blog
+        $user->can_see = \App\User::IS_TRUE;
+        $user->can_delete = \App\User::IS_TRUE;
         if ($request->can_see == null) {
-            $user->can_see = false;
+            $user->can_see = \App\User::IS_FALSE;
         }
         if ($request->can_delete == null) {
-            $user->can_delete = false;
+            $user->can_delete = \App\User::IS_FALSE;
         }
         $user->save();
         return redirect()->back()->with('message', 'Edit user success !');

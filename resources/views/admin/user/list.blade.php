@@ -43,8 +43,8 @@
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td><input type="checkbox" value="{{ $user->can_see }}" @if ($user->can_see == 1) checked="checked" @endif></td>
-                                        <td><input type="checkbox" value="{{ $user->can_delete }}" @if ($user->can_delete == 1) checked="checked" @endif></td>
+                                        <td><input type="checkbox" value="{{ $user->can_see }}" @if (!empty($user->can_see)) checked="checked" @endif></td>
+                                        <td><input type="checkbox" value="{{ $user->can_delete }}" @if (!empty($user->can_delete)) checked="checked" @endif></td>
                                         <td class="center"><a href="/admin/user/edit/{{ $user->id }}">Edit</a></td>
                                         <td class="center">
                                             <input type="hidden" class="hiddenID" value="{{ $user->id }}">
