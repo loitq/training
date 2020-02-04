@@ -7,9 +7,13 @@ use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\User;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use Hash;
 =======
 >>>>>>> 09edd17... login, logout test
+=======
+use Hash;
+>>>>>>> be9773b... add case test
 
 class LoginTest extends DuskTestCase
 {
@@ -264,7 +268,7 @@ class LoginTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser->loginAs(User::find(2))
-                    //->visit('/admin')
+                    ->visit('/admin')
                     ->assertPathIs('/');
 >>>>>>> 09edd17... login, logout test
         });
@@ -418,8 +422,21 @@ class LoginTest extends DuskTestCase
     */
     public function testUserLoginAfterRemoveData()
     {
-        // Call test user login
-        $this->testUserLogin();
+        // Create data test
+        $userDestroy = User::create([
+            'name'     => "user destroy",
+            'email'    => "usertest@lifull-tech.vn",
+            'role'     => \App\User::USER,
+            'password' => Hash::make("lifull@123"),
+        ]); 
+        // Login by data user test
+        $this->browse(function ($browser) use ($user) {
+            $browser->visit('/login')
+                    ->type('email', $user->email)
+                    ->type('password', 'lifull@123')
+                    ->press('Login')
+                    ->assertPathIs('/admin');
+        });
         // Destroy user
         User::destroy(2);
         // Redirect path
