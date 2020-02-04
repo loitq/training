@@ -85,7 +85,7 @@ class LoginTest extends DuskTestCase
     public function testUserWrong()
     {
         // Get user
-        $user = User::find(2); 
+        $user = User::find(2);
         $this->browse(function ($browser) use ($user) {
             $browser->visit('/login')
                     ->type('email', $user->email)
@@ -212,23 +212,20 @@ class LoginTest extends DuskTestCase
             'name'     => "user destroy",
             'email'    => "usertest@lifull-tech.vn",
             'role'     => \App\User::USER,
-            'password' => Hash::make("lifull@123"),
-        ]); 
+            'password' => Hash::make("lifull@123")
+        ]);
         // Login by data user test
-        $this->browse(function ($browser) use ($user) {
-            $browser->visit('/login')
-                    ->type('email', $user->email)
-                    ->type('password', 'lifull@123')
-                    ->press('Login')
-                    ->assertPathIs('/admin');
+        $this->browse(function ($browser) use ($userDestroy) {
+            $browser->loginAs($userDestroy)
+                    ->visit('/')
+                    ->assertPathIs('/');
         });
         // Destroy user
-        User::destroy(2);
+        User::destroy($userDestroy->id);
         // Redirect path
         $this->browse(function ($browser) {
             $browser->visit('/')
                     ->assertPathIs('/login');
         });
-
     }
 }
