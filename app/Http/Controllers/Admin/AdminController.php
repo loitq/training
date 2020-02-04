@@ -139,15 +139,6 @@ class AdminController extends Controller
     {
         $user = User::find($id);
 
-        $this->validate(
-            $request, [
-            'username' => 'required',
-            'email' => 'required|unique:users,email,'.$user->id,
-            ]
-        );
-
-        $user->name = $request->username;
-        $user->email = $request->email;
         $user->can_see = \App\User::IS_TRUE;
         $user->can_delete = \App\User::IS_TRUE;
         if ($request->can_see == null) {
