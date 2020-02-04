@@ -23,7 +23,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::all();
+        $blogs = Blog::where('user_id', '=', $this->defineUser()->id)->get();
         if ($this->defineUser()->can_delete === Blog::IS_TRUE) {
             $canDelete = true;
         }else {
