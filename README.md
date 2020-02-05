@@ -1,10 +1,12 @@
  Clone source: 
  - git clone https://github.com/loitq/training.git. 
-Run source on Mac IOS: 
+Run source on MacOS: 
 - cd vào folder chứa source và chạy lệnh.
+
 Config: 
 - cp .env.exple .env
 - php artisan key:generate ( tạo application key để chạy được project
+
 Run:
 - php artisan serve
 
