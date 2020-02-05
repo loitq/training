@@ -10,9 +10,6 @@ use Hash;
 
 class LoginTest extends DuskTestCase
 {
-    const PATH_ADMIN = '/admin';
-    const PATH_LOGIN = '/login';
-
     /**
      * A basic browser url not login.
      */
@@ -28,10 +25,10 @@ class LoginTest extends DuskTestCase
      * A basic browser go to path admin dislay Login.
      */
     public function testPathAdmin()
-    {   
+    {
         $this->browse(function (Browser $browser) {
-            $browser->visit(self::PATH_ADMIN)
-                    ->assertPathIs(self::PATH_LOGIN);
+            $browser->visit(config('contants.path.admin'))
+                    ->assertPathIs(config('contants.path.login'));
         });
     }
 
@@ -41,7 +38,7 @@ class LoginTest extends DuskTestCase
     public function testRegisterLink()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(self::PATH_ADMIN)
+            $browser->visit(config('contants.path.admin'))
                     ->clickLink('Register')
                     ->assertPathIs('/register');
         });
@@ -53,7 +50,7 @@ class LoginTest extends DuskTestCase
     public function testForgetPasswordLink()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(self::PATH_LOGIN)
+            $browser->visit(config('contants.path.login'))
                     ->clickLink('Forgot Your Password?')
                     ->assertPathIs('/password/reset');
         });
@@ -65,7 +62,7 @@ class LoginTest extends DuskTestCase
     public function testLinkForgetPassword()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(self::PATH_LOGIN)
+            $browser->visit(config('contants.path.login'))
                     ->clickLink('Forgot Your Password?')
                     ->assertPathIs('/password/reset');
         });
@@ -77,7 +74,7 @@ class LoginTest extends DuskTestCase
     public function testDisplayLogin()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(self::PATH_LOGIN)
+            $browser->visit(config('contants.path.login'))
                     ->assertSee('Login');
         });
     }
@@ -90,7 +87,7 @@ class LoginTest extends DuskTestCase
         // Get user
         $user = User::find(2);
         $this->browse(function ($browser) use ($user) {
-            $browser->visit(self::PATH_LOGIN)
+            $browser->visit(config('contants.path.login'))
                     ->type('email', $user->email)
                     ->type('password', 'abc@123')
                     ->press('Login')
@@ -105,7 +102,7 @@ class LoginTest extends DuskTestCase
     public function testLoginNotInput()
     {
         $this->browse(function ($browser) {
-            $browser->visit(self::PATH_LOGIN)
+            $browser->visit(config('contants.path.login'))
                     ->press('Login')
                     ->assertFocused('email');
         });
@@ -117,7 +114,7 @@ class LoginTest extends DuskTestCase
     public function testEmailInputInvalid()
     {
         $this->browse(function ($browser) {
-            $browser->visit(self::PATH_LOGIN)
+            $browser->visit(config('contants.path.login'))
                     ->type('email', 'abc')
                     ->press('Login')
                     ->assertFocused('email');
@@ -132,7 +129,7 @@ class LoginTest extends DuskTestCase
         // Get user
         $user = User::find(2);
         $this->browse(function ($browser) use ($user) {
-            $browser->visit(self::PATH_LOGIN)
+            $browser->visit(config('contants.path.login'))
                     ->type('email', $user->email)
                     ->type('password', 'lifull@123')
                     ->press('Login')
@@ -147,7 +144,7 @@ class LoginTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser->loginAs(User::find(2))
-                    ->visit(self::PATH_ADMIN)
+                    ->visit(config('contants.path.admin'))
                     ->assertPathIs('/');
         });
     }
@@ -173,11 +170,11 @@ class LoginTest extends DuskTestCase
         $user = User::find(1);
 
         $this->browse(function ($browser) use ($user) {
-            $browser->visit(self::PATH_LOGIN)
+            $browser->visit(config('contants.path.login'))
                     ->type('email', $user->email)
                     ->type('password', 'lifull@123')
                     ->press('Login')
-                    ->assertPathIs(self::PATH_ADMIN);
+                    ->assertPathIs(config('contants.path.admin'));
         });
     }
 
@@ -189,7 +186,7 @@ class LoginTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser->loginAs(User::find(1))
                     ->visit('/')
-                    ->assertPathIs(self::PATH_ADMIN);
+                    ->assertPathIs(config('contants.path.admin'));
         });
     }
 
@@ -228,7 +225,7 @@ class LoginTest extends DuskTestCase
         // Redirect path
         $this->browse(function ($browser) {
             $browser->visit('/')
-                    ->assertPathIs(self::PATH_LOGIN);
+                    ->assertPathIs(config('contants.path.login'));
         });
     }
 }
