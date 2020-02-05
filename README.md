@@ -7,6 +7,17 @@ Config:
 // cd vào folder chứa source và chạy lệnh
 - cp .env.exple .env
 - php artisan key:generate ( tạo application key để chạy được project
+// edit file
+<p>
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=dbName
+DB_USERNAME=username
+DB_PASSWORD=password
+</p>
+// Create database 
+php artisan migrate:refresh --seed
 
 Run:
 - php artisan serve
