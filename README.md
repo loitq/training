@@ -20,7 +20,8 @@ DB_PASSWORD=password <br />
 // Create database <br />
 php artisan migrate:refresh --seed
 
-Run:
+// Run web server:
+
 - php artisan serve
 
 
