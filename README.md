@@ -17,7 +17,7 @@ DB_DATABASE=dbName <br />
 DB_USERNAME=username <br />
 DB_PASSWORD=password <br />
 </p>
-// Create database 
+// Create database <br />
 php artisan migrate:refresh --seed
 
 Run:
