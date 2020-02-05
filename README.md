@@ -1,5 +1,6 @@
  Clone source: 
  - git clone https://github.com/loitq/training.git. 
+ 
 Run source on MacOS
 
 Config: 
