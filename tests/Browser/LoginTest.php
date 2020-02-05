@@ -12,6 +12,7 @@ class LoginTest extends DuskTestCase
 {
     /**
      * A basic browser url not login.
+     * case 1-1
      */
     public function testPathWrong()
     {
@@ -23,6 +24,7 @@ class LoginTest extends DuskTestCase
 
     /**
      * A basic browser go to path admin dislay Login.
+     * Case 1-2
      */
     public function testPathAdmin()
     {
@@ -33,19 +35,21 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * Display login test register link.
+     * A basic browser go to Forget passord.
+     * case 1-3
      */
-    public function testRegisterLink()
+    public function testDisplayLogin()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(config('contants.path.admin'))
-                    ->clickLink('Register')
-                    ->assertPathIs('/register');
+            $browser->visit(config('contants.path.login'))
+                    ->assertSee('Login');
         });
     }
 
+
     /**
      * Display login test forget password link.
+     * Case 1-4
      */
     public function testForgetPasswordLink()
     {
@@ -57,30 +61,34 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * A basic browser dislay Login.
+     * Display login test register link.
+     * Case 1-5
      */
-    public function testLinkForgetPassword()
+    public function testRegisterLink()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(config('contants.path.login'))
-                    ->clickLink('Forgot Your Password?')
-                    ->assertPathIs('/password/reset');
+            $browser->visit(config('contants.path.admin'))
+                    ->clickLink('Register')
+                    ->assertPathIs('/register');
         });
     }
 
     /**
-     * A basic browser go to Forget passord.
+     * Test login not input.
+     * Case 1-6
      */
-    public function testDisplayLogin()
+    public function testLoginNotInput()
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function ($browser) {
             $browser->visit(config('contants.path.login'))
-                    ->assertSee('Login');
+                    ->press('Login')
+                    ->assertFocused('email');
         });
     }
 
     /**
      * Test email or password wrong input keep email.
+     * Case 1-7
      */
     public function testUserWrong()
     {
@@ -97,32 +105,8 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * Test login not input.
-     */
-    public function testLoginNotInput()
-    {
-        $this->browse(function ($browser) {
-            $browser->visit(config('contants.path.login'))
-                    ->press('Login')
-                    ->assertFocused('email');
-        });
-    }
-
-    /**
-     * Test email invalid
-     */
-    public function testEmailInputInvalid()
-    {
-        $this->browse(function ($browser) {
-            $browser->visit(config('contants.path.login'))
-                    ->type('email', 'abc')
-                    ->press('Login')
-                    ->assertFocused('email');
-        });
-    }
-
-    /**
      * A basic browser test user login.
+     * Case 2-1
      */
     public function testUserLogin()
     {
@@ -139,6 +123,7 @@ class LoginTest extends DuskTestCase
 
     /**
      * A basic browser test user visit path admin.
+     * Case 2-2
      */
     public function testUserVisitAdmin()
     {
@@ -150,19 +135,8 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * A basic browser test user logout.
-     */
-    public function testUserLogout()
-    {
-        $this->browse(function ($browser) {
-            $browser->loginAs(User::find(2))
-                    ->logout()
-                    ->assertGuest();
-        });
-    }
-
-    /**
      * A basic browser test admin login.
+     * Case 2-3
      */
     public function testAdminLogin()
     {
@@ -180,6 +154,7 @@ class LoginTest extends DuskTestCase
 
     /**
      * A basic browser test admmin visit path /.
+     * Case 2-4
      */
     public function testPathVisitUser()
     {
@@ -191,7 +166,21 @@ class LoginTest extends DuskTestCase
     }
 
     /**
+     * A basic browser test user logout.
+     * Case 3-1
+     */
+    public function testUserLogout()
+    {
+        $this->browse(function ($browser) {
+            $browser->loginAs(User::find(2))
+                    ->logout()
+                    ->assertGuest();
+        });
+    }
+
+    /**
      * Test admin logout.
+     * Case 3-2
      */
     public function testAdminLogout()
     {
@@ -204,6 +193,7 @@ class LoginTest extends DuskTestCase
 
     /**
      * A basic browser user login, remove database, reload page.
+     * Case 3-3
      */
     public function testUserLoginAfterRemoveData()
     {
