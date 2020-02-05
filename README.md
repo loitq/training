@@ -5,7 +5,7 @@ Run source on MacOS
 Config: 
 
 // cd vào folder chứa source và chạy lệnh
-- cp .env.exple .env
+- cp .env.example .env
 - php artisan key:generate ( tạo application key để chạy được project
 
 // edit file
