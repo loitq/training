@@ -1,11 +1,11 @@
+ Clone source: 
  - git clone https://github.com/loitq/training.git. 
- 
-run source : 
+Run source on Mac IOS: 
 - cd vào folder chứa source và chạy lệnh.
-kiểm tra file .env có chưa, nếu chưa có thì copy file .env.example và đổi tên file vừa copy ra thành
- .env
-chạy lệnh :
-- php artisan key:generate ( tạo application key để chạy được project)
+Config: 
+- cp .env.exple .env
+- php artisan key:generate ( tạo application key để chạy được project
+Run:
 - php artisan serve
 
 
