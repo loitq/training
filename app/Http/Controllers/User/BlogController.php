@@ -99,7 +99,7 @@ class BlogController extends Controller
             'title' => 'required',
             'content' => 'required',
         ]);
-        $blog = Blog::find(12);
+        $blog = Blog::find($id);
         if (isset($blog)) {
         $blog->title = $request->title;
         $blog->content = $request->content;
