@@ -60,6 +60,7 @@
                 <th scope="col">Id</th>
                 <th scope="col">Title</th>
                 <th scope="col">Action</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -72,6 +73,8 @@
                             <form action="{{route('blog.edit', ['id' => $blog->id])}}" name="form-edit" method="GET">
                                 <button type="submit" class="btn btn-info">Edit</button>
                             </form>
+                        </td>
+                        <td>
                             @if($canDelete === true)
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{$blog->id}}">Delete</button>
                                 <form action="{{route('blog.destroy',['id' => $blog->id])}}" name="form-edit" method="GET">
