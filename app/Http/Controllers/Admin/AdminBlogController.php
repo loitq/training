@@ -24,6 +24,7 @@ class AdminBlogController extends Controller
     public function index()
     {
         $blogs = User::join('blogs', 'users.id', '=', 'blogs.user_id')->get();
+
         return view('admin-blog/index', ['blogs'=>$blogs]);
     }
 
@@ -44,7 +45,8 @@ class AdminBlogController extends Controller
         $blog->title = $request->title;
         $blog->content = $request->content;
         $blog->save();
-        return redirect()->back()->with('message', 'Create blog success !');
+
+        return redirect()->back()->with('message', 'Create blog success !')->with('message', 'Create new blog success');
     }
 
     /**
@@ -56,7 +58,12 @@ class AdminBlogController extends Controller
     public function destroy($id) 
     {
         $blog = Blog::find($id);
-        $blog->delete();
+        if(isset($blog)) {
+            $blog->delete();
+        } else {
+            return redirect()->back()->withErrors('Blog not found');
+        }
+            
         return redirect()->back()->with('message', 'delete blog success !');
     }
 
@@ -72,7 +79,7 @@ class AdminBlogController extends Controller
         if (isset($blog)) 
             return view('admin-blog/edit', ['blog' => $blog]);
         else
-            return redirect()->back();
+            return redirect()->back()->withErrors('Blog not found');
     }
 
     /**
@@ -88,9 +95,14 @@ class AdminBlogController extends Controller
             'content' => 'required',
         ]);
         $blog = Blog::find($id);
-        $blog->title = $request->title;
-        $blog->content = $request->content;
-        $blog->save();
+        if(isset($blog)) {
+            $blog->title = $request->title;
+            $blog->content = $request->content;
+            $blog->save();
+        } else {
+            return redirect()->back()->withErrors('Blog not found');
+        }
+
         return redirect()->route('admin.blog.index')->with('message', 'Update blog success !');
     }
 }
