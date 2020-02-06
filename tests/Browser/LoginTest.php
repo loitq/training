@@ -14,7 +14,7 @@ class LoginTest extends DuskTestCase
      * Get data from cogfig to test.
      * @return array
      */
-    public function getDatatTest()
+    public function getDataTest()
     {
         return config('constants');
     }
@@ -37,7 +37,7 @@ class LoginTest extends DuskTestCase
      */
     public function testPathAdmin()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function (Browser $browser) use ($data) {
             $browser->visit($data['path']['admin'])
                     ->assertPathIs($data['path']['login']);
@@ -50,7 +50,7 @@ class LoginTest extends DuskTestCase
      */
     public function testDisplayLogin()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function (Browser $browser) use ($data) {
             $browser->visit($data['path']['login'])
                     ->assertSee('Login');
@@ -63,7 +63,7 @@ class LoginTest extends DuskTestCase
      */
     public function testForgetPasswordLink()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function (Browser $browser) use ($data) {
             $browser->visit($data['path']['login'])
                     ->clickLink('Forgot Your Password?')
@@ -77,7 +77,7 @@ class LoginTest extends DuskTestCase
      */
     public function testRegisterLink()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function (Browser $browser) use ($data) {
             $browser->visit($data['path']['login'])
                     ->clickLink('Register')
@@ -91,7 +91,7 @@ class LoginTest extends DuskTestCase
      */
     public function testLoginNotInput()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
             $browser->visit($data['path']['login'])
                     ->press('Login')
@@ -105,7 +105,7 @@ class LoginTest extends DuskTestCase
      */
     public function testUserWrong()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
             $browser->visit($data['path']['login'])
                     ->type('email', $data['email']['user'])
@@ -122,14 +122,13 @@ class LoginTest extends DuskTestCase
      */
     public function testUserLogin()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
             $browser->visit($data['path']['login'])
                     ->type('email', $data['email']['user'])
                     ->type('password', 'lifull@123')
                     ->press('Login')
-                    ->assertPathIs('/')
-                    ->logout();
+                    ->assertPathIs('/');
         });
     }
 
@@ -139,12 +138,12 @@ class LoginTest extends DuskTestCase
      */
     public function testUserVisitAdmin()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
             $browser->loginAs(User::find(2))
                     ->visit($data['path']['admin'])
                     ->assertPathIs($data['path']['user'])
-                    ->logout();
+                    ->tearDown();
         });
     }
 
@@ -154,7 +153,7 @@ class LoginTest extends DuskTestCase
      */
     public function testAdminLogin()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
             $browser->logout()
                     ->visit($data['path']['login'])
@@ -171,11 +170,12 @@ class LoginTest extends DuskTestCase
      */
     public function testPathVisitUser()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
             $browser->loginAs(User::find(1))
                     ->visit($data['path']['user'])
-                    ->assertPathIs($data['path']['admin']);
+                    ->assertPathIs($data['path']['admin'])
+                    ->tearDown();
         });
     }
 
@@ -185,10 +185,14 @@ class LoginTest extends DuskTestCase
      */
     public function testUserLogout()
     {
-        $this->browse(function ($browser) {
-            $browser->loginAs(User::find(2))
-                    ->logout()
-                    ->assertGuest();
+        $data = $this->getDataTest();
+        $this->browse(function ($browser) use ($data) {
+            $browser->loginAs(User::find($data['userId']))
+                    ->visit('/')
+                    ->click('.dropdown')
+                    ->waitFor('.dropdown-menu.show')
+                    ->clickLink('Logout')
+                    ->assertPathIs($data['path']['login']);
         });
     }
 
@@ -198,10 +202,14 @@ class LoginTest extends DuskTestCase
      */
     public function testAdminLogout()
     {
-        $this->browse(function ($browser) {
-            $browser->loginAs(User::find(1))
-                    ->logout()
-                    ->assertGuest();
+        $data = $this->getDataTest();
+        $this->browse(function ($browser) use ($data){
+            $browser->loginAs(User::find($data['adminId']))
+                    ->visit('/admin')
+                    ->click('.dropdown')
+                    ->waitFor('.dropdown-menu.show')
+                    ->clickLink('Logout')
+                    ->assertPathIs($data['path']['login']);
         });
     }
 
@@ -211,7 +219,7 @@ class LoginTest extends DuskTestCase
      */
     public function testUserLoginAfterRemoveData()
     {
-        $data = $this->getDatatTest();
+        $data = $this->getDataTest();
         // Create data test
         $userDestroy = User::create([
             'name'     => "user destroy",
@@ -227,7 +235,7 @@ class LoginTest extends DuskTestCase
         });
         // Remove user login in database
         User::destroy($userDestroy->id);
-        // Reload brower
+        // Visit path user
         $this->browse(function ($browser) use ($data) {
             $browser->visit($data['path']['user'])
                     ->assertPathIs($data['path']['login']);

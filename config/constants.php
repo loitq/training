@@ -10,10 +10,16 @@ return [
         'user' => 'user@lifull-tech.vn',
         'admin' => 'loitq@lifull-tech.vn'
 <<<<<<< HEAD
+<<<<<<< HEAD
     ],
     'adminId' => 1,
     'userId'  => 2
 =======
     ]
 >>>>>>> 52733a9... map report test case, fix constants
+=======
+    ],
+    'adminId' => 1,
+    'userId'  => 2
+>>>>>>> 7201db0... fix test logout
 ];
