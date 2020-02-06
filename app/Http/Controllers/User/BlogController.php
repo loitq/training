@@ -24,16 +24,12 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::where('user_id', '=', $this->defineUser()->id)->get();
-        if ($this->defineUser()->can_delete === Blog::IS_TRUE) {
-            $canDelete = true;
-        }else {
-            $canDelete = false;
-        }
+        $canDelete = $this->defineUser()->can_delete === Blog::IS_TRUE;
         $canSee = $this->defineUser()->can_see;
         if($canSee === Blog::IS_TRUE)
             return view('blog/index', ['blogs'=>$blogs, 'canDelete'=>$canDelete]);
         else
-            return redirect()->back();
+            return redirect()->back()->withErrors("you can't to enter blog manage");
     }
 
     /**
@@ -53,7 +49,8 @@ class BlogController extends Controller
         $blog->title = $request->title;
         $blog->content = $request->content;
         $blog->save();
-        return redirect()->back();
+
+        return redirect()->back()->with('message', 'Create new blog success !');
     }
 
     /**
@@ -66,9 +63,13 @@ class BlogController extends Controller
     {
         if ($this->defineUser()->can_delete === Blog::IS_TRUE) {
             $blog = Blog::find($id);
-            $blog->delete();
+            if (isset($blog))
+                $blog->delete();
+            else 
+                return redirect()->back()->withErrors('Delete blog error');
         }
-        return redirect()->back();
+
+        return redirect()->back()->with('message', 'Delete blog success !');
     }
 
     /**
@@ -83,7 +84,7 @@ class BlogController extends Controller
         if (isset($blog)) 
             return view('blog/edit', ['blog' => $blog]);
         else
-            return redirect()->back();
+            return redirect()->back()->withErrors('Blog not found');
     }
 
     /**
@@ -98,10 +99,15 @@ class BlogController extends Controller
             'title' => 'required',
             'content' => 'required',
         ]);
-        $blog = Blog::find($id);
+        $blog = Blog::find(12);
+        if (isset($blog)) {
         $blog->title = $request->title;
         $blog->content = $request->content;
         $blog->save();
-        return redirect()->route('blog.index');
+        } else {
+            return redirect()->route('blog.index')->withErrors('Update blog error!');
+        }
+
+        return redirect()->route('blog.index')->with('message', 'Update blog success!');
     }
 }

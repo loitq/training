@@ -1,8 +1,27 @@
-<?php ?>
 @extends('admin.layout.index')
 @section('content')
-
 <div id="page-wrapper">
+    <div class="panel-body">
+        @if(count($errors) > 0)
+            <div class="alert alert-danger">
+                @foreach($errors->all() as $err)
+                    <strong>{{$err}}</strong><br>
+                @endforeach
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">
+                <strong>{{session('error')}}</strong>
+            </div>
+        @endif
+        @if (session('message'))
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <p>{{ session('message') }}</p>
+            </div>
+        @endif
+    </div>
+
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create Blog</button>
 
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">

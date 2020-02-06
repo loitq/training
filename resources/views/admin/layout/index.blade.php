@@ -53,7 +53,8 @@
     </script>
 
     <!-- ckeditor -->
-    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('ckeditor/ckeditor.js') }}">
+    </script>
 </body>
 
 </html>
