@@ -11,7 +11,16 @@ use Hash;
 class LoginTest extends DuskTestCase
 {
     /**
-     * A basic browser url not login.
+     * Get data from cogfig to test.
+     * @return array
+     */
+    public function getDatatTest()
+    {
+        return config('constants');
+    }
+
+    /**
+     * Url not login.
      * case 1-1
      */
     public function testPathWrong()
@@ -23,150 +32,155 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * A basic browser go to path admin dislay Login.
+     * User not logged in go to path '/admin'
      * Case 1-2
      */
     public function testPathAdmin()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(config('contants.path.admin'))
-                    ->assertPathIs(config('contants.path.login'));
+        $data = $this->getDatatTest();
+        $this->browse(function (Browser $browser) use ($data) {
+            $browser->visit($data['path']['admin'])
+                    ->assertPathIs($data['path']['login']);
         });
     }
 
     /**
-     * A basic browser go to Forget passord.
-     * case 1-3
+     * Test view login content
+     * Case 1-3
      */
     public function testDisplayLogin()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(config('contants.path.login'))
+        $data = $this->getDatatTest();
+        $this->browse(function (Browser $browser) use ($data) {
+            $browser->visit($data['path']['login'])
                     ->assertSee('Login');
         });
     }
 
-
     /**
-     * Display login test forget password link.
+     * Click forget passwork link
      * Case 1-4
      */
     public function testForgetPasswordLink()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(config('contants.path.login'))
+        $data = $this->getDatatTest();
+        $this->browse(function (Browser $browser) use ($data) {
+            $browser->visit($data['path']['login'])
                     ->clickLink('Forgot Your Password?')
                     ->assertPathIs('/password/reset');
         });
     }
 
     /**
-     * Display login test register link.
+     * Test path register
      * Case 1-5
      */
     public function testRegisterLink()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(config('contants.path.admin'))
+        $data = $this->getDatatTest();
+        $this->browse(function (Browser $browser) use ($data) {
+            $browser->visit($data['path']['login'])
                     ->clickLink('Register')
                     ->assertPathIs('/register');
         });
     }
 
     /**
-     * Test login not input.
+     * Login with email or password wrong
      * Case 1-6
      */
     public function testLoginNotInput()
     {
-        $this->browse(function ($browser) {
-            $browser->visit(config('contants.path.login'))
+        $data = $this->getDatatTest();
+        $this->browse(function ($browser) use ($data) {
+            $browser->visit($data['path']['login'])
                     ->press('Login')
                     ->assertFocused('email');
         });
     }
 
     /**
-     * Test email or password wrong input keep email.
+     * Login with email or password wrong keep email login
      * Case 1-7
      */
     public function testUserWrong()
     {
-        // Get user
-        $user = User::find(2);
-        $this->browse(function ($browser) use ($user) {
-            $browser->visit(config('contants.path.login'))
-                    ->type('email', $user->email)
+        $data = $this->getDatatTest();
+        $this->browse(function ($browser) use ($data) {
+            $browser->visit($data['path']['login'])
+                    ->type('email', $data['email']['user'])
                     ->type('password', 'abc@123')
                     ->press('Login')
                     ->assertSee('These credentials do not match our records.')
-                    ->assertInputValue('email', $user->email);
+                    ->assertInputValue('email', $data['email']['user']);
         });
     }
 
     /**
-     * A basic browser test user login.
+     * User login with email, password
      * Case 2-1
      */
     public function testUserLogin()
     {
-        // Get user
-        $user = User::find(2);
-        $this->browse(function ($browser) use ($user) {
-            $browser->visit(config('contants.path.login'))
-                    ->type('email', $user->email)
+        $data = $this->getDatatTest();
+        $this->browse(function ($browser) use ($data) {
+            $browser->visit($data['path']['login'])
+                    ->type('email', $data['email']['user'])
                     ->type('password', 'lifull@123')
                     ->press('Login')
-                    ->assertPathIs('/');
+                    ->assertPathIs('/')
+                    ->logout();
         });
     }
 
     /**
-     * A basic browser test user visit path admin.
+     * User logged in go to path '/admin'
      * Case 2-2
      */
     public function testUserVisitAdmin()
     {
-        $this->browse(function ($browser) {
+        $data = $this->getDatatTest();
+        $this->browse(function ($browser) use ($data) {
             $browser->loginAs(User::find(2))
-                    ->visit(config('contants.path.admin'))
-                    ->assertPathIs('/');
+                    ->visit($data['path']['admin'])
+                    ->assertPathIs($data['path']['user'])
+                    ->logout();
         });
     }
 
     /**
-     * A basic browser test admin login.
+     * Admin login with email, password.
      * Case 2-3
      */
     public function testAdminLogin()
     {
-        // Get Admin
-        $user = User::find(1);
-
-        $this->browse(function ($browser) use ($user) {
-            $browser->visit(config('contants.path.login'))
-                    ->type('email', $user->email)
+        $data = $this->getDatatTest();
+        $this->browse(function ($browser) use ($data) {
+            $browser->logout()
+                    ->visit($data['path']['login'])
+                    ->type('email', $data['email']['admin'])
                     ->type('password', 'lifull@123')
                     ->press('Login')
-                    ->assertPathIs(config('contants.path.admin'));
+                    ->assertPathIs($data['path']['admin']);
         });
     }
 
     /**
-     * A basic browser test admmin visit path /.
+     * Admin logged go to path '/user'
      * Case 2-4
      */
     public function testPathVisitUser()
     {
-        $this->browse(function ($browser) {
+        $data = $this->getDatatTest();
+        $this->browse(function ($browser) use ($data) {
             $browser->loginAs(User::find(1))
-                    ->visit('/')
-                    ->assertPathIs(config('contants.path.admin'));
+                    ->visit($data['path']['user'])
+                    ->assertPathIs($data['path']['admin']);
         });
     }
 
     /**
-     * A basic browser test user logout.
+     * User logout.
      * Case 3-1
      */
     public function testUserLogout()
@@ -179,7 +193,7 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * Test admin logout.
+     * Admin logout.
      * Case 3-2
      */
     public function testAdminLogout()
@@ -192,11 +206,12 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * A basic browser user login, remove database, reload page.
+     * User logged, after remove user logined, reload browser:
      * Case 3-3
      */
     public function testUserLoginAfterRemoveData()
     {
+        $data = $this->getDatatTest();
         // Create data test
         $userDestroy = User::create([
             'name'     => "user destroy",
@@ -204,18 +219,18 @@ class LoginTest extends DuskTestCase
             'role'     => \App\User::USER,
             'password' => Hash::make("lifull@123")
         ]);
-        // Login by data user test
-        $this->browse(function ($browser) use ($userDestroy) {
+        // User login
+        $this->browse(function ($browser) use ($data, $userDestroy) {
             $browser->loginAs($userDestroy)
-                    ->visit('/')
-                    ->assertPathIs('/');
+                    ->visit($data['path']['user'])
+                    ->assertPathIs($data['path']['user']);
         });
-        // Destroy user
+        // Remove user login in database
         User::destroy($userDestroy->id);
-        // Redirect path
-        $this->browse(function ($browser) {
-            $browser->visit('/')
-                    ->assertPathIs(config('contants.path.login'));
+        // Reload brower
+        $this->browse(function ($browser) use ($data) {
+            $browser->visit($data['path']['user'])
+                    ->assertPathIs($data['path']['login']);
         });
     }
 }
