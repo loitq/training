@@ -31,6 +31,11 @@ Route::middleware('auth')->group(function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
         Route::get('/', 'AdminController@index')->name('admin.index');
         Route::get('/users', 'AdminController@users')->name('admin.users');
+        Route::get('/blog', 'AdminBlogController@index')->name('admin.blog.index');
+        Route::post('/blog/stores', 'AdminBlogController@store')->name('admin.blog.store');
+        Route::get('/blog/{id}/delete', 'AdminBlogController@destroy')->name('admin.blog.destroy');
+        Route::get('/blog/{id}/edit', 'AdminBlogController@edit')->name('admin.blog.edit');
+        Route::post('/blog/{id}/update', 'AdminBlogController@update')->name('admin.blog.update');
     });
 
     //Route User
