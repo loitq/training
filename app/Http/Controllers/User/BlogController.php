@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Blog;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,13 +45,18 @@ class BlogController extends Controller
             'title' => 'required',
             'content' => 'required',
         ]);
-        $blog = new Blog;
-        $blog->user_id = $this->defineUser()->id;
-        $blog->title = $request->title;
-        $blog->content = $request->content;
-        $blog->save();
+        
+        try {
+            $blog = new Blog;
+            $blog->user_id = $this->defineUser()->id;
+            $blog->title = $request->title;
+            $blog->content = $request->content;
+            $blog->save();
 
-        return redirect()->back()->with('message', 'Create new blog success !');
+            return redirect()->back()->with('message', 'Create new blog success !');
+        } catch(Exception $e) {
+            return redirect()->back()->withErrors('Create blog error');
+        }
     }
 
     /**
@@ -63,10 +69,15 @@ class BlogController extends Controller
     {
         if ($this->defineUser()->can_delete === Blog::IS_TRUE) {
             $blog = Blog::find($id);
-            if (isset($blog))
-                $blog->delete();
-            else 
+            if (isset($blog)) {
+                try {
+                    $blog->delete();
+                } catch(Exception $e) {
+                    return redirect()->back()->withErrors('Delete blog error');
+                }
+            } else {
                 return redirect()->back()->withErrors('Delete blog error');
+            }
         }
 
         return redirect()->back()->with('message', 'Delete blog success !');
@@ -101,13 +112,17 @@ class BlogController extends Controller
         ]);
         $blog = Blog::find($id);
         if (isset($blog)) {
-        $blog->title = $request->title;
-        $blog->content = $request->content;
-        $blog->save();
-        } else {
-            return redirect()->route('blog.index')->withErrors('Update blog error!');
+            try {
+                $blog->title = $request->title;
+                $blog->content = $request->content;
+                $blog->save();
+            } catch(Exception $e) {
+                return redirect()->back()->withErrors('Update blog error');
+            }
+
+            return redirect()->route('blog.index')->with('message', 'Update blog success!');
         }
 
-        return redirect()->route('blog.index')->with('message', 'Update blog success!');
+        return redirect()->back()->withErrors('Update blog error!');
     }
 }
