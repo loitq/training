@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     //Route User
     Route::group([
         'namespace' => 'User',
-        'middleware' => 'admin'
+        'middleware' => 'user'
     ], function () {
         // Controllers Within The "App\Http\Controllers\User" Namespace
         Route::get('/', 'BlogController@index')->name('blog.index');
