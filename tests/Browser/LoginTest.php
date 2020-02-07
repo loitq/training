@@ -140,7 +140,7 @@ class LoginTest extends DuskTestCase
     {
         $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
-            $browser->loginAs(User::find(2))
+            $browser->loginAs(User::find($data['userId']))
                     ->visit($data['path']['admin'])
                     ->assertPathIs($data['path']['user'])
                     ->tearDown();
@@ -172,7 +172,7 @@ class LoginTest extends DuskTestCase
     {
         $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
-            $browser->loginAs(User::find(1))
+            $browser->loginAs(User::find($data['adminId']))
                     ->visit($data['path']['user'])
                     ->assertPathIs($data['path']['admin'])
                     ->tearDown();
