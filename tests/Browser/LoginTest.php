@@ -32,7 +32,7 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * User not logged in go to path '/admin'
+     * User not logged in go to path admin
      * Case 1-2
      */
     public function testPathAdmin()
@@ -133,7 +133,7 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * User logged in go to path '/admin'
+     * User logged in go to path admin
      * Case 2-2
      */
     public function testUserVisitAdmin()
@@ -165,7 +165,7 @@ class LoginTest extends DuskTestCase
     }
 
     /**
-     * Admin logged go to path '/user'
+     * Admin logged go to path user
      * Case 2-4
      */
     public function testPathVisitUser()
@@ -235,7 +235,7 @@ class LoginTest extends DuskTestCase
         });
         // Remove user login in database
         User::destroy($userDestroy->id);
-        // Visit path user
+        // Redirect path user
         $this->browse(function ($browser) use ($data) {
             $browser->visit($data['path']['user'])
                     ->assertPathIs($data['path']['login']);
