@@ -13,7 +13,8 @@ class BlogController extends Controller
 {
 
     // return information user
-    public function defineUser() {
+    public function defineUser()
+    {
         return Auth::user();
     }
 
@@ -27,10 +28,11 @@ class BlogController extends Controller
         $blogs = Blog::where('user_id', '=', $this->defineUser()->id)->get();
         $canDelete = $this->defineUser()->can_delete === Blog::IS_TRUE;
         $canSee = $this->defineUser()->can_see;
-        if($canSee === Blog::IS_TRUE)
+        if ($canSee === Blog::IS_TRUE) {
             return view('blog/index', ['blogs'=>$blogs, 'canDelete'=>$canDelete]);
-        else
+        } else {
             return redirect()->back()->withErrors("you can't to enter blog manage");
+        }
     }
 
     /**
@@ -54,7 +56,7 @@ class BlogController extends Controller
             $blog->save();
 
             return redirect()->back()->with('message', 'Create new blog success !');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()->withErrors('Create blog error');
         }
     }
@@ -65,14 +67,14 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy($id)
     {
         if ($this->defineUser()->can_delete === Blog::IS_TRUE) {
             $blog = Blog::find($id);
             if (isset($blog)) {
                 try {
                     $blog->delete();
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     return redirect()->back()->withErrors('Delete blog error');
                 }
             } else {
@@ -92,10 +94,11 @@ class BlogController extends Controller
     public function edit($id)
     {
         $blog = Blog::find($id);
-        if (isset($blog)) 
+        if (isset($blog)) {
             return view('blog/edit', ['blog' => $blog]);
-        else
+        } else {
             return redirect()->back()->withErrors('Blog not found');
+        }
     }
 
     /**
@@ -104,7 +107,7 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request ,$id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'title' => 'required',
@@ -116,7 +119,7 @@ class BlogController extends Controller
                 $blog->title = $request->title;
                 $blog->content = $request->content;
                 $blog->save();
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 return redirect()->back()->withErrors('Update blog error');
             }
 
