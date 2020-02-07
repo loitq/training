@@ -1,15 +1,4 @@
 <?php
-/**
- * Parses and verifies the doc comments for files!
- *
- * PHP version 7
- *
- * @category PHP
- * @package  PHP_CodeSniffer
- * @author   LoiTQ <loitq@lifull-tech.vn>
- * @license  http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
- * @link     http://pear.php.net/package/PHP_CodeSniffer
- */
 
 /*
 |--------------------------------------------------------------------------
@@ -22,58 +11,45 @@
 |
 */
 
-Route::get(
-    '/', function () {
-        return view('welcome');
-    }
-);
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware('auth')
-    ->group(
-        function () {
-            // Route Dashboard
-            Route::get('/', 'DashboardController@index');
+Route::middleware('auth')->group(function () {
+    // Route Dashboard
+    Route::get('/', 'DashboardController@index');
 
-            //Route Admin
-            Route::group(
-                [
-                'prefix' => 'admin',
-                'namespace' => 'Admin'
-                ],
-                function () {
-                    // Controllers Within The "App\Http\Controllers\Admin" Namespace
-                        Route::get('/', 'AdminController@index')
-                        ->name('admin.index');
-                        Route::get('/user/list', 'AdminController@userList')
-                        ->name('admin.users');
-                        Route::get('/user/create', 'AdminController@userCreate')
-                        ->name('admin.user.create');
-                        Route::post(
-                            '/user/create', 'AdminController@handleUserCreate'
-                        )->name('admin.user.handleCreate');
-                        Route::get('/user/edit/{id}', 'AdminController@userEdit')
-                        ->name('admin.user.update');
-                        Route::post(
-                            '/user/edit/{id}', 'AdminController@handleUserEdit'
-                        )->name('admin.user.handleUpdate');
-                        Route::get(
-                            '/user/delete/{id}', 'AdminController@handleDelete'
-                        )->name('admin.user.handleDelete');
-                        Route::get('/user/logout', 'AdminController@logout')
-                        ->name('admin.user.logout');
-                }
-            );
+    //Route Admin
+    Route::group([
+        'prefix' => 'admin',
+        'namespace' => 'Admin'
+    ], function () {
+        // Controllers Within The "App\Http\Controllers\Admin" Namespace
+        Route::get('/', 'AdminController@index')->name('admin.index');
+        Route::get('/user/list', 'AdminController@userList')->name('admin.users');
+        Route::get('/user/create', 'AdminController@userCreate')->name('admin.user.create');
+        Route::post(
+            '/user/create', 'AdminController@handleUserCreate'
+        )->name('admin.user.handleCreate');
+        Route::get('/user/edit/{id}', 'AdminController@userEdit')
+        ->name('admin.user.update');
+        Route::post(
+            '/user/edit/{id}', 'AdminController@handleUserEdit'
+        )->name('admin.user.handleUpdate');
+        Route::get(
+            '/user/delete/{id}', 'AdminController@handleDelete'
+        )->name('admin.user.handleDelete');
+        Route::get('/user/logout', 'AdminController@logout')
+        ->name('admin.user.logout');
+    });
 
-            //Route User
-            Route::namespace('User')->group(
-                function () {
-                    // Controllers Within The "App\Http\Controllers\User" Namespace
-                    Route::get('/', 'BlogController@index')->name('blog.index');
-                }
-            );
-        }
-    );
+    //Route User
+    Route::namespace('User')->group(function () {
+        // Controllers Within The "App\Http\Controllers\User" Namespace
+        Route::get('/', 'BlogController@index')->name('blog.index');
+    });
+});

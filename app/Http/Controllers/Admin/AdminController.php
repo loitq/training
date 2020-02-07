@@ -1,15 +1,4 @@
 <?php
-/**
- * Parses and verifies the doc comments for files!
- *
- * PHP version 7
- *
- * @category PHP
- * @package  PHP_CodeSniffer
- * @author   LoiTQ <loitq@lifull-tech.vn>
- * @license  http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
- * @link     http://pear.php.net/package/PHP_CodeSniffer
- */
 
 namespace App\Http\Controllers\Admin;
 
@@ -19,17 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\User;
 use Auth;
 
-/**
- * Template Class Doc Comment
- * 
- * AdminConttroller
- * 
- * @category PHP
- * @package  PHP_CodeSniffer
- * @author   LoiTQ <loitq@lifull-tech.vn>
- * @license  https://opensource.org/licenses/MIT MIT License
- * @link     http://127.0.0.1/
- */
 class AdminController extends Controller
 {
     /**
@@ -39,45 +17,57 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $roleAdmin = \App\User::ADMIN;
-        return view('admin.user.dashboard', ['roleAdmin' => $roleAdmin]);
+        return view('admin.user.dashboard', ['roleAdmin' => $this->roleAdmin()]);
     }
 
     /**
-     * Log account admin out of the application.
+     * Permisson account admin
      *
-     * @return void
+     * @return $roleAdmin
+     */
+    public function roleAdmin()
+    {
+        $roleAdmin = \App\User::ADMIN;
+        return $roleAdmin;
+    }
+
+    /**
+     * Display user list.
+     *
+     * @return Illuminate\View\View
      */
     public function userList()
     {
         $users = Auth::user();
-        $roleAdmin = \App\User::ADMIN;
-        if ($users->role === \App\User::ADMIN) {
+        if ($users->role === \App\User::USER) {
+            return redirect()->back();
+        } else {
             $users = User::where('role', \App\User::ROLE_USER)
                 ->paginate(\App\User::PAGINATE_USER);
             return view(
                 'admin.user.list', [
-                'users' => $users, 'roleAdmin' => $roleAdmin
+                'users' => $users, 'roleAdmin' => $this->roleAdmin()
                 ]
             );
-        } else {
-            return redirect()->back();
         }
     }
 
     /**
-     * Log account admin out of the application.
+     * Return view create.
      *
-     * @return void
+     * @return Illuminate\View\View
      */
     public function userCreate()
     {
-        $roleAdmin = \App\User::ADMIN;
-        return view('admin.user.createOrUpdate', ['roleAdmin' => $roleAdmin]);
+        return view(
+            'admin.user.createOrUpdate', [
+            'roleAdmin' => $this->roleAdmin()
+            ]
+        );
     }
 
     /**
-     * Log account admin out of the application.
+     * Handle create user.
      *
      * @param Request $request Request create user
      *
@@ -97,38 +87,40 @@ class AdminController extends Controller
         $user->name = $request->username;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        $user->can_see = \App\User::IS_TRUE;
-        $user->can_delete = \App\User::IS_TRUE;
-        if ($request->can_see == null) {
-            $user->can_see = \App\User::IS_FALSE;
-        }
-        if ($request->can_delete == null) {
-            $user->can_delete = \App\User::IS_FALSE;
+        if ($request->can_see === "on") {
+            $user->can_see = \App\User::IS_TRUE;
+        } 
+        if ($request->can_delete === "on") {
+            $user->can_delete = \App\User::IS_TRUE;
         }
         $user->save();
+
         return redirect()->back()->with('message', 'Create user success !');
     }
 
     /**
-     * Log account admin out of the application.
+     * Return view user edit
      *
      * @param $id Id user
-     *
-     * @return \Illuminate\Http\Response
+     * 
+     * @return Illuminate\View\View
      */
     public function userEdit($id)
     {
         $edit = User::find($id);
-        $roleAdmin = \App\User::ADMIN;
-        return view(
-            'admin.user.createOrUpdate', [
-            'edit' => $edit, 'roleAdmin' => $roleAdmin
-            ]
-        );
+        if (!$edit) {
+            return redirect('/admin/user/create');
+        } else {
+            return view(
+                'admin.user.createOrUpdate', [
+                'edit' => $edit, 'roleAdmin' => $this->roleAdmin()
+                ]
+            );
+        }        
     }
 
     /**
-     * Log account admin out of the application.
+     * Handle edit account user
      *
      * @param Request $request Request edit user
      * @param $id      Id user
@@ -138,21 +130,24 @@ class AdminController extends Controller
     public function handleUserEdit(Request $request, $id)
     {
         $user = User::find($id);
-
-        $user->can_see = \App\User::IS_TRUE;
-        $user->can_delete = \App\User::IS_TRUE;
-        if ($request->can_see == null) {
+        if ($request->can_see != "on") {
             $user->can_see = \App\User::IS_FALSE;
+        } else {
+            $user->can_see = \App\User::IS_TRUE;
         }
-        if ($request->can_delete == null) {
+        if ($request->can_delete != "on") {
             $user->can_delete = \App\User::IS_FALSE;
+        } else {
+            $user->can_delete = \App\User::IS_TRUE;
         }
+
         $user->save();
+
         return redirect()->back()->with('message', 'Edit user success !');
     }
 
     /**
-     * Log account admin out of the application.
+     * Delete account user
      *
      * @param $id Id user
      *
@@ -167,7 +162,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Log account admin out of the application.
+     * Logout admin
      *
      * @param Request $request Request logout admin
      *
