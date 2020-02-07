@@ -26,7 +26,8 @@ Route::middleware('auth')->group(function () {
     //Route Admin
     Route::group([
         'prefix' => 'admin',
-        'namespace' => 'Admin'
+        'namespace' => 'Admin',
+        'middleware' => 'admin'
     ], function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
         Route::get('/', 'AdminController@index')->name('admin.index');
@@ -48,7 +49,10 @@ Route::middleware('auth')->group(function () {
     });
 
     //Route User
-    Route::namespace('User')->group(function () {
+    Route::group([
+        'namespace' => 'User',
+        'middleware' => 'admin'
+    ], function () {
         // Controllers Within The "App\Http\Controllers\User" Namespace
         Route::get('/', 'BlogController@index')->name('blog.index');
     });
