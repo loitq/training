@@ -34,28 +34,28 @@ class AdminController extends Controller
     /**
      * Display user list.
      *
-     * @return Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function userList()
     {
         $users = Auth::user();
         if ($users->role === \App\User::USER) {
             return redirect()->back();
-        } else {
-            $users = User::where('role', \App\User::ROLE_USER)
-                ->paginate(\App\User::PAGINATE_USER);
-            return view(
-                'admin.user.list', [
-                'users' => $users, 'roleAdmin' => $this->roleAdmin()
-                ]
-            );
         }
+
+        $users = User::where('role', \App\User::ROLE_USER)
+            ->paginate(\App\User::PAGINATE_USER);
+        return view(
+            'admin.user.list', [
+            'users' => $users, 'roleAdmin' => $this->roleAdmin()
+            ]
+        );
     }
 
     /**
      * Return view create.
      *
-     * @return Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function userCreate()
     {
@@ -93,6 +93,7 @@ class AdminController extends Controller
         if ($request->can_delete === "on") {
             $user->can_delete = \App\User::IS_TRUE;
         }
+
         $user->save();
 
         return redirect()->back()->with('message', 'Create user success !');
@@ -103,20 +104,20 @@ class AdminController extends Controller
      *
      * @param $id Id user
      * 
-     * @return Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function userEdit($id)
     {
         $edit = User::find($id);
         if (!$edit) {
             return redirect('/admin/user/create');
-        } else {
-            return view(
-                'admin.user.createOrUpdate', [
-                'edit' => $edit, 'roleAdmin' => $this->roleAdmin()
-                ]
-            );
-        }        
+        }
+
+        return view(
+            'admin.user.createOrUpdate', [
+            'edit' => $edit, 'roleAdmin' => $this->roleAdmin()
+            ]
+        );       
     }
 
     /**
