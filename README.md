@@ -1,31 +1,3 @@
- Clone source: 
- - git clone https://github.com/loitq/training.git. 
- 
-Run source on MacOS
-
-Config: 
-
-// cd vào folder chứa source và chạy lệnh
-- cp .env.example .env
-- php artisan key:generate ( tạo application key để chạy được project
-
-// edit file
-<p>
-DB_CONNECTION=mysql <br />
-DB_HOST=127.0.0.1 <br />
-DB_PORT=3306 <br />
-DB_DATABASE=dbname <br />
-DB_USERNAME=username <br />
-DB_PASSWORD=password <br />
-</p>
-// Create database <br />
-php artisan migrate:refresh --seed
-
-// Run web server:
-
-- php artisan serve
-
-
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">

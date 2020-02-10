@@ -22,7 +22,7 @@ role="navigation" style="margin-bottom: 0">
                 <li><a href="#"><i class="fa fa-user fa-fw"></i>User Profile</a>
                 </li>
                 <li class="divider"></li>
-                <li><a href="{{route('admin.user.logout')}}">
+                <li><a href="login.html">
                     <i class="fa fa-sign-out fa-fw"></i>Logout</a>
                 </li>
             </ul>
