@@ -15,7 +15,11 @@ class AdminController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         return view('admin.index');
+=======
+        return view('admin.index', ['roleAdmin' => $this->roleAdmin()]);
+>>>>>>> a85ac0b... refactor folder view
     }
 
     public function userList()
