@@ -15,4 +15,14 @@ $(function() {
     })
 })
 
-document.write('<script type="text/javascript" src="../../asset/admin/js/define.js" ></script>');
+$(function() {
+    $('.btnDel').on('click', function() {
+        var id = $(this).prev();
+        var id_value = id.val();
+        $('.btnConf').on('click', function() {
+            window.location.href="/admin/user/delete/" + id_value;
+        });
+    });
+});
+
+document.write('<script type="text/javascript" src="/asset/admin/js/define.js"></script>');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use App\User;
 use Auth;
 
 class AdminController extends Controller
@@ -15,21 +17,161 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        return view('admin.user.dashboard', ['roleAdmin' => $this->roleAdmin()]);
     }
 
+    /**
+     * Permisson account admin
+     *
+     * @return $roleAdmin
+     */
+    public function roleAdmin()
+    {
+        $roleAdmin = \App\User::ADMIN;
+        return $roleAdmin;
+    }
+
+    /**
+     * Display user list.
+     *
+     * @return \Illuminate\View\View
+     */
     public function userList()
     {
-        return view('admin.user.list');
+        $users = Auth::user();
+        if ($users->role === \App\User::USER) {
+            return redirect()->back();
+        }
+
+        $users = User::where('role', \App\User::ROLE_USER)
+            ->paginate(\App\User::PAGINATE_USER);
+        return view(
+            'admin.user.list', [
+            'users' => $users, 'roleAdmin' => $this->roleAdmin()
+            ]
+        );
     }
 
+    /**
+     * Return view create.
+     *
+     * @return \Illuminate\View\View
+     */
     public function userCreate()
     {
-        return view('admin.user.createOrUpdate');
+        return view(
+            'admin.user.createOrUpdate', [
+            'roleAdmin' => $this->roleAdmin()
+            ]
+        );
     }
 
-    public function userEdit()
+    /**
+     * Handle create user.
+     *
+     * @param Request $request Request create user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleUserCreate(Request $request)
     {
-        return view('admin.user.createOrUpdate');
+        $this->validate(
+            $request, [
+            'username' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required',
+            ]
+        );
+
+        $user = new User();
+        $user->name = $request->username;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        if ($request->can_see === "on") {
+            $user->can_see = \App\User::IS_TRUE;
+        } 
+        if ($request->can_delete === "on") {
+            $user->can_delete = \App\User::IS_TRUE;
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('message', 'Create user success !');
+    }
+
+    /**
+     * Return view user edit
+     *
+     * @param $id Id user
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function userEdit($id)
+    {
+        $edit = User::find($id);
+        if (!$edit) {
+            return redirect('/admin/user/create');
+        }
+
+        return view(
+            'admin.user.createOrUpdate', [
+            'edit' => $edit, 'roleAdmin' => $this->roleAdmin()
+            ]
+        );       
+    }
+
+    /**
+     * Handle edit account user
+     *
+     * @param Request $request Request edit user
+     * @param $id      Id user
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function handleUserEdit(Request $request, $id)
+    {
+        $user = User::find($id);
+        if ($request->can_see != "on") {
+            $user->can_see = \App\User::IS_FALSE;
+        } else {
+            $user->can_see = \App\User::IS_TRUE;
+        }
+        if ($request->can_delete != "on") {
+            $user->can_delete = \App\User::IS_FALSE;
+        } else {
+            $user->can_delete = \App\User::IS_TRUE;
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('message', 'Edit user success !');
+    }
+
+    /**
+     * Delete account user
+     *
+     * @param $id Id user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleDelete($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        return redirect('/admin/user/list')
+            ->with('message', 'Delete account success !');
+    }
+
+    /**
+     * Logout admin
+     *
+     * @param Request $request Request logout admin
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/login');
     }
 }

@@ -3,6 +3,10 @@
     <div class="sidebar-collapse">
         <ul class="nav" id="side-menu">
             <li>
+                <a href="/admin"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+            </li>
+            @if (auth()->user()->role === $roleAdmin)
+            <li>
                 <a href="">
                     <i class="fa fa-table fa-fw"></i>User 
                     <span class="fa arrow"></span></a>
@@ -16,6 +20,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
             <li>
                 <a href="#"><i class="fa fa-edit fa-fw"></i>Blog</a>
             </li>
