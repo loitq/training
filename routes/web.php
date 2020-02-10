@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
 
     //Route User
     Route::namespace('User')->group(function () {
-        // Controllers Within The "App\Http\Controllers\User" Namespace
-        Route::get('/', 'BlogController@index')->name('blog.index');
+        Route::get('/blog', 'BlogController@index')->name('blog.index');
+        Route::post('/blog/stores', 'BlogController@store')->name('blog.store');
     });
 });
