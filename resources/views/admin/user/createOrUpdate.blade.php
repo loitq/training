@@ -1,5 +1,5 @@
 <?php ?>
-@extends('admin.layout.index')
+@extends('layouts.admin')
 
 @section('content')
     <div id="page-wrapper">
