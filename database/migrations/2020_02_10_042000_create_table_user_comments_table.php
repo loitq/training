@@ -4,31 +4,31 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBlogsTable extends Migration
+class CreateTableUserCommentsTable extends Migration
 {
     /**
      * Run the migrations.
      *
+     * @return void
      */
     public function up()
     {
-        Schema::create('blogs', function (Blueprint $table) {
+        Schema::create('users_comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
-            $table->string('title');
-            $table->text('content');
-            $table->string('image_url')->nullable();
+            $table->bigInteger('blog_id');
+            $table->bigInteger('comment_id');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
      *
+     * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('blogs');
+        Schema::dropIfExists('users_comments');
     }
 }
