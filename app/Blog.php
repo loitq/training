@@ -8,17 +8,47 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Blog extends Model
 {
-    protected $table = 'blogs';
+    /**
+	 * The table associated with the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'blogs';
 
     use SoftDeletes;
+
+    const IS_FALSE = 0;
+    const IS_TRUE = 1;
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title', 'content', 'user_id', 'created_at', 'updated_at'
+    ];
 
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [
+        'created_at', 'updated_at', 'deleted_at'
+    ];
 
-    const IS_FALSE = 0;
-    const IS_TRUE = 1;
+    /**
+	 * The attributes that should be hidden for arrays.
+	 *
+	 * @var array
+	 */
+    protected $hidden = ['deleted_at'];
 }
