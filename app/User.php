@@ -12,6 +12,11 @@ class User extends Authenticatable
 
     const ADMIN  = 1;
     const USER   = 2;
+    const ROLE_ADMIN = 1;
+    const ROLE_USER = 2;
+    const PAGINATE_USER = 3;
+    const IS_TRUE = 1;
+    const IS_FALSE = 0;
     /**
      * The attributes that are mass assignable.
      *
