@@ -17,7 +17,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.user.dashboard', ['roleAdmin' => $this->roleAdmin()]);
+        return view('admin.index', ['roleAdmin' => $this->roleAdmin()]);
     }
 
     /**
