@@ -51,6 +51,9 @@
     <!-- SB Admin Scripts - Include with every page -->
     <script src="/asset/admin/js/sb-admin.js">
     </script>
+
+    <script src="asset/admin/js/blogs.js">
+    </script>
 </body>
 
 </html>
