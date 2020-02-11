@@ -9,7 +9,7 @@ role="navigation" style="margin-bottom: 0">
             <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Laravel') }}
+            {{ config('app.name', 'Traning') }}
         </a>
     </div>
     <!-- /.navbar-header -->
