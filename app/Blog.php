@@ -8,19 +8,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Blog extends Model
 {
-    /**
+     /**
 	 * The table associated with the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'blogs';
+    protected $table = 'blogs';
 
     use SoftDeletes;
 
     const IS_FALSE = 0;
     const IS_TRUE = 1;
 
-    /**
+     /**
      * The primary key associated with the table.
      *
      * @var string
