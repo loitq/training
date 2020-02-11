@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Training') }}</title>
 
     <!-- Core CSS - Include with every page -->
     <link href="/asset/admin/css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
 <body>
     
     <!-- Page Content -->
-    <div id="wrapper">    
+    <div id="wrapper">
         @include('partials.header')
         @include('user.sidebar')
         <!-- Page Content -->

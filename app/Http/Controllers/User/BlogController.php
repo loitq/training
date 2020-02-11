@@ -29,7 +29,6 @@ class BlogController extends Controller
         }else {
             $canDelete = false;
         }
-        $canDelete = false;
         $canSee = $this->defineUser()->can_see;
         if($canSee === Blog::IS_TRUE)
             return view('user.blog.index', ['blogs'=>$blogs, 'canDelete'=>$canDelete]);
