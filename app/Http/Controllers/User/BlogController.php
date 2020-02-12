@@ -30,11 +30,10 @@ class BlogController extends Controller
         }
 
         //return view blog index with param $candelete and $blog
-        if ($canSee === Blog::IS_TRUE) {
-            $canDelete = $this->defineUser()->can_delete === Blog::IS_TRUE;
-            $blogs = Blog::where('user_id', '=', $this->defineUser()->id)->get();
-            return view('blog/index', ['blogs'=>$blogs, 'canDelete'=>$canDelete]);
-        }
+        $canDelete = $this->defineUser()->can_delete === Blog::IS_TRUE;
+        $blogs = Blog::where('user_id', '=', $this->defineUser()->id)->get();
+        
+        return view('blog/index', ['blogs'=>$blogs, 'canDelete'=>$canDelete]);
     }
 
     /**
