@@ -18,11 +18,9 @@ class CommentController extends Controller
      *
      * @return array $listComments
      */
-    public function index(Request $request)
+    public function index(Request $request, $blogId)
     {
-        $blogId = $request['id'];
-        $listComments = $this->getCommentsbyBlogId($blogId);
-        return $listComments;
+        return $listComments = $this->getCommentsbyBlogId($blogId);
     }
 
     /**

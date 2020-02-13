@@ -1,7 +1,6 @@
 $(function() 
 {
     $(".view-comment").click(function(event) {
-        //alert(window.location.href)
         var blogId = event.target.id;
         $.ajaxSetup({
             headers:
@@ -10,9 +9,8 @@ $(function()
                 },
         });
         $.ajax({
-            type: "POST",
-            url:'comment/list',
-            data: {'id': blogId},
+            type: "GET",
+            url:'blog/'+ blogId +'/comment',
             success: function(data) {
                 $("#list-comment-"+blogId).append(generateListComment(data));
                 $("#send-comment-"+blogId).append(generateSendComment(blogId));
@@ -65,7 +63,7 @@ function addNewComment(blogId)
     });
     $.ajax({
         type: "POST",
-        url:'comment/create',
+        url:'blog/comment/create',
         data: {
             'blogId': blogId,
             'comment_content': commentContent
