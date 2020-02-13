@@ -51,6 +51,9 @@
     <script src="/asset/admin/js/sb-admin.js">
     </script>
 
+    <!-- ckeditor -->
+    <script src="{{ asset('ckeditor/ckeditor.js') }}">
+    </script>
 </body>
 
 </html>
