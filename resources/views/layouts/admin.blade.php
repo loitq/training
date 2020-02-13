@@ -1,4 +1,3 @@
-<?php ?>
 <!DOCTYPE html>
 <html>
 
@@ -7,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Admin</title>
+    <title>{{ config('app.name', 'Training') }}</title>
 
     <!-- Core CSS - Include with every page -->
     <link href="/asset/admin/css/bootstrap.min.css" rel="stylesheet">
@@ -23,11 +22,11 @@
 </head>
 
 <body>
-    <div id="wrapper">
-        <!-- navbar  !--->
-        @include('admin.layout.header')
-        <!-- End Header -->
-
+    
+    <!-- Page Content -->
+    <div id="wrapper">    
+        @include('partials.header')
+        @include('admin.sidebar')
         <!-- Page Content -->
         @yield('content')
         <!-- End Page Content -->
@@ -52,9 +51,6 @@
     <script src="/asset/admin/js/sb-admin.js">
     </script>
 
-    <!-- ckeditor -->
-    <script src="{{ asset('ckeditor/ckeditor.js') }}">
-    </script>
 </body>
 
 </html>

@@ -20,9 +20,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function () {
-    // Route Dashboard
-    Route::get('/', 'DashboardController@index');
-
     //Route Admin
     Route::group([
         'prefix' => 'admin',
@@ -35,7 +32,9 @@ Route::middleware('auth')->group(function () {
 
     //Route User
     Route::namespace('User')->group(function () {
-        Route::get('/', 'BlogController@index')->name('blog.index');
+        Route::get('/', 'UserController@index')->name('user.index');
+        // route user's blog
+        Route::get('/blog', 'BlogController@index')->name('blog.index');
         Route::post('/blog/stores', 'BlogController@store')->name('blog.store');
         Route::get('/blog/{id}/delete', 'BlogController@destroy')->name('blog.destroy');
         Route::get('/blog/{id}/edit', 'BlogController@edit')->name('blog.edit');
