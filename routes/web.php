@@ -47,8 +47,8 @@ Route::middleware('auth')->group(function () {
     //Route User
     Route::namespace('User')->group(function () {
         Route::get('/', 'UserController@index')->name('user.index');
-        Route::post('/comment/list', 'UserController@userListComment')->name('user.comment.list');
-        Route::post('/comment/add', 'UserController@userAddComment')->name('user.comment.add');
+        Route::post('/comment/list', 'CommentController@index')->name('comment.list');
+        Route::post('/comment/create', 'CommentController@create')->name('comment.create');
         // route user's blog
         Route::get('/blog', 'BlogController@index')->name('blog.index');
         Route::post('/blog/stores', 'BlogController@store')->name('blog.store');

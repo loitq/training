@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
     protected $table = 'blogs';
-
+    const PAGINATE_BLOG = 10;
+    
     /**
      * Relationship many to one.
      *

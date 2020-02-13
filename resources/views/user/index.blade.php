@@ -14,7 +14,8 @@
         </div>
         <div class="panel-footer">
             <a class="view-comment" role="button" id="{{ $blog['id'] }}">Comment</a>
-            <div id="viewComment{{$blog['id']}}"></div>
+            <div id="list-comment-{{$blog['id']}}"></div>
+            <div id="send-comment-{{$blog['id']}}"></div>
         </div>
     </div>
     @endforeach
