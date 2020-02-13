@@ -51,11 +51,8 @@
     <script src="/asset/admin/js/sb-admin.js">
     </script>
 
-<<<<<<< HEAD:resources/views/admin/layout/index.blade.php
     <script src="asset/admin/js/blogs.js">
     </script>
-=======
->>>>>>> 82a4703ec2531283715912f24d733c39fba597be:resources/views/layouts/user.blade.php
 </body>
 
 </html>
