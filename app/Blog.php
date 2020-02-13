@@ -10,11 +10,11 @@ class Blog extends Model
     const IS_FALSE = 0;
     const IS_TRUE = 1;
 
-    public function user() 
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function comments() 
+    public function comments()
     {
         return $this->hasMany(Comments::class);
     }

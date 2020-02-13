@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 $factory->define(Blog::class, function (Faker $faker) {
     return [
-        'user_id' => function (){
+        'user_id' => function () {
             return factory(\App\User::class)->create()->id;
         },
         'title' => 'Title '. $faker->randomNumber(2),
