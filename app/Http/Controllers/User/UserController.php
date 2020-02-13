@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Blog;
 use App\Comments;
+use Auth;
 
 class UserController extends Controller
 {
@@ -28,24 +29,64 @@ class UserController extends Controller
         ]);
     }
 
-    public function getComment(Request $request)
+    /**
+     * Handle get list comment.
+     *
+     * @param Request $request
+     *
+     * @return array $listComments
+     */
+    public function userListComment(Request $request)
     {
         $blogId = $request['id'];
-        $listComment = Comments::with(['user' => function ($query) {
-                $query->select('id', 'name');
-        }])
-            ->where('blog_id', $blogId)
-            ->select(['id', 'user_id', 'comment_content'])
-            ->get()
-            ->toArray();
+        $listComment = $this->getCommentsbyBligId($blogId);
         return $listComment;
     }
 
-    public function addComment(Request $request)
+    /**
+     * Handle add new comment and load new list comment.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    public function userAddComment(Request $request)
     {
+        $user = Auth::user();
+        $comment =  new Comments();
+
+        $comment->user_id = $user->id;
+        $comment->blog_id = $request['blogId'];
+        $comment->comment_content = $request->comment_content;
+
+        $comment->save();
+
+        $listComments = $this->getCommentsbyBligId($request['blog_id']);
+
         return [
             'blogId' => $request['blogId'],
-            'comment_content' => $request['comment_content']
+            'listComments' => $listComments
         ];
+    }
+
+    /**
+     * Handle get list comment by blogId.
+     *
+     * @param Request $request
+     *
+     * @return array $listComments
+     */
+    private function getCommentsbyBligId($blogId)
+    {
+        $listComments = Comments::with(['user' => function ($query) {
+            $query->select('id', 'name');
+        }])
+        ->where('blog_id', $blogId)
+        ->select(['id', 'user_id', 'comment_content'])
+        ->take(3)
+        ->get()
+        ->toArray();
+
+        return $listComments;
     }
 }

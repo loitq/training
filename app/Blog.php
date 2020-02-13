@@ -7,13 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
     protected $table = 'blogs';
-    const IS_FALSE = 0;
-    const IS_TRUE = 1;
 
+    /**
+     * Relationship many to one.
+     *
+     * @return array App\Blog
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Relationship one to many.
+     *
+     * @return App\Comments
+     */
     public function comments()
     {
         return $this->hasMany(Comments::class);

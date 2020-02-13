@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
+    const USER_RECORD_NUMBER = 2;
     /**
      * Run the database seeds.
      */
@@ -25,6 +26,6 @@ class UsersTableSeeder extends Seeder
             'can_see' => \APP\User::IS_TRUE,
         ]);
 
-        factory(App\User::class, 2)->create();
+        factory(App\User::class, USER_RECORD_NUMBER)->create();
     }
 }
