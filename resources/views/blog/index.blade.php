@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-@extends('layouts.app')
-=======
-@extends('admin.layout.index')
->>>>>>> dba70f1d6756f762d53e8dc43a44f520d3506d51
+@extends('layouts.user')
 @section('content')
 <div id="page-wrapper">
     <div class="panel-body">
@@ -137,10 +133,9 @@
             <!-- /.panel -->
         </div>
         <!-- /.col-lg-12 -->
-    </div>
+    </div>  
 </div>
 
-<<<<<<< HEAD
 <table class="table table-striped">
     <thead>
         <tr>
@@ -174,6 +169,3 @@
 </table>
 
 @endsection
-=======
-@endsection
->>>>>>> dba70f1d6756f762d53e8dc43a44f520d3506d51

@@ -25,12 +25,6 @@ class BlogController extends Controller
     public function index()
     {
         $canSee = $this->defineUser()->can_see;
-<<<<<<< HEAD
-        if($canSee === Blog::IS_TRUE)
-            return view('user.blog.index', ['blogs'=>$blogs, 'canDelete'=>$canDelete]);
-        else
-            return redirect()->back();
-=======
         if ($canSee === Blog::IS_FALSE) {
             return redirect()->back()->withErrors("you can't to enter blog manage");
         }
@@ -40,7 +34,6 @@ class BlogController extends Controller
         $blogs = Blog::where('user_id', '=', $this->defineUser()->id)->get();
         
         return view('blog/index', ['blogs'=>$blogs, 'canDelete'=>$canDelete]);
->>>>>>> dba70f1d6756f762d53e8dc43a44f520d3506d51
     }
 
     /**
