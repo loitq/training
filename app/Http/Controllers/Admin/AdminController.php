@@ -94,7 +94,11 @@ class AdminController extends Controller
             $user->can_delete = \App\User::IS_TRUE;
         }
 
-        $user->save();
+        $result = $user->save();
+
+        if (!$result) {
+            return redirect()->back()->with('error', 'Create user failed !');
+        }
 
         return redirect()->back()->with('message', 'Create user success !');
     }
@@ -142,7 +146,11 @@ class AdminController extends Controller
             $user->can_delete = \App\User::IS_TRUE;
         }
 
-        $user->save();
+        $result = $user->save();
+
+        if (!$result) {
+            return redirect()->back()->with('error', 'Edit user failed !');
+        }
 
         return redirect()->back()->with('message', 'Edit user success !');
     }
@@ -157,7 +165,13 @@ class AdminController extends Controller
     public function handleDelete($id)
     {
         $user = User::find($id);
+        if (!isset($user)) {
+            return redirect('/admin/user/list')
+                ->with('message', 'Could not be deleted');
+        }
+
         $user->delete();
+
         return redirect('/admin/user/list')
             ->with('message', 'Delete account success !');
     }
