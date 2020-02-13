@@ -83,24 +83,25 @@ class AdminController extends Controller
             ]
         );
 
-        $user = new User();
-        $user->name = $request->username;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        if ($request->can_see === "on") {
-            $user->can_see = \App\User::IS_TRUE;
-        } 
-        if ($request->can_delete === "on") {
-            $user->can_delete = \App\User::IS_TRUE;
+        try {
+            $user = new User();
+            $user->name = $request->username;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            if ($request->can_see === "on") {
+                $user->can_see = \App\User::IS_TRUE;
+            } 
+            if ($request->can_delete === "on") {
+                $user->can_delete = \App\User::IS_TRUE;
+            }
+
+            $user->save();
+
+            return redirect()->back()->with('message', 'Create user success !');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $result = $user->save();
-
-        if (!$result) {
-            return redirect()->back()->with('error', 'Create user failed !');
-        }
-
-        return redirect()->back()->with('message', 'Create user success !');
+        
     }
 
     /**
@@ -134,25 +135,25 @@ class AdminController extends Controller
      */
     public function handleUserEdit(Request $request, $id)
     {
-        $user = User::find($id);
-        if ($request->can_see != "on") {
-            $user->can_see = \App\User::IS_FALSE;
-        } else {
-            $user->can_see = \App\User::IS_TRUE;
-        }
-        if ($request->can_delete != "on") {
-            $user->can_delete = \App\User::IS_FALSE;
-        } else {
-            $user->can_delete = \App\User::IS_TRUE;
-        }
+        try {
+            $user = User::find($id);
+            if ($request->can_see != "on") {
+                $user->can_see = \App\User::IS_FALSE;
+            } else {
+                $user->can_see = \App\User::IS_TRUE;
+            }
+            if ($request->can_delete != "on") {
+                $user->can_delete = \App\User::IS_FALSE;
+            } else {
+                $user->can_delete = \App\User::IS_TRUE;
+            }
 
-        $result = $user->save();
+            $user->save();
 
-        if (!$result) {
-            return redirect()->back()->with('error', 'Edit user failed !');
+            return redirect()->back()->with('message', 'Edit user success !');
+        } catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        return redirect()->back()->with('message', 'Edit user success !');
     }
 
     /**
@@ -164,16 +165,22 @@ class AdminController extends Controller
      */
     public function handleDelete($id)
     {
-        $user = User::find($id);
-        if (!isset($user)) {
+        try {
+            $user = User::find($id);
+
+            if (!isset($user)) {
+                return redirect('/admin/user/list')
+                    ->with('error', 'Could not be deleted');
+            }
+
+            $user->delete();
+
             return redirect('/admin/user/list')
-                ->with('message', 'Could not be deleted');
+                ->with('message', 'Delete account success !');
+        } catch (\Exception $e) {
+            return redirect('/admin/user/list')
+                ->with('error', $e->getMessage());
         }
-
-        $user->delete();
-
-        return redirect('/admin/user/list')
-            ->with('message', 'Delete account success !');
     }
 
     /**
