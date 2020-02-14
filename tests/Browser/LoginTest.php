@@ -141,9 +141,10 @@ class LoginTest extends DuskTestCase
         $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
             $browser->loginAs(User::find($data['userId']))
+                    ->visit($data['path']['user'])
                     ->visit($data['path']['admin'])
                     ->assertPathIs($data['path']['user'])
-                    ->tearDown();
+                    ->logout();
         });
     }
 
@@ -155,8 +156,7 @@ class LoginTest extends DuskTestCase
     {
         $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
-            $browser->logout()
-                    ->visit($data['path']['login'])
+            $browser->visit($data['path']['login'])
                     ->type('email', $data['email']['admin'])
                     ->type('password', 'lifull@123')
                     ->press('Login')
@@ -173,9 +173,9 @@ class LoginTest extends DuskTestCase
         $data = $this->getDataTest();
         $this->browse(function ($browser) use ($data) {
             $browser->loginAs(User::find($data['adminId']))
+                    ->visit($data['path']['admin'])
                     ->visit($data['path']['user'])
-                    ->assertPathIs($data['path']['admin'])
-                    ->tearDown();
+                    ->assertPathIs($data['path']['admin']);
         });
     }
 
@@ -190,7 +190,7 @@ class LoginTest extends DuskTestCase
             $browser->loginAs(User::find($data['userId']))
                     ->visit('/')
                     ->click('.dropdown')
-                    ->waitFor('.dropdown-menu.show')
+                    ->waitFor('.dropdown.open')
                     ->clickLink('Logout')
                     ->assertPathIs($data['path']['login']);
         });
@@ -207,7 +207,7 @@ class LoginTest extends DuskTestCase
             $browser->loginAs(User::find($data['adminId']))
                     ->visit('/admin')
                     ->click('.dropdown')
-                    ->waitFor('.dropdown-menu.show')
+                    ->waitFor('.dropdown.open')
                     ->clickLink('Logout')
                     ->assertPathIs($data['path']['login']);
         });
