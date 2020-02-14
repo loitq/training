@@ -15,7 +15,6 @@ class CommentController extends Controller
      * Handle get list comment.
      *
      * @param Request $request
-     *
      * @return array $listComments
      */
     public function index(Request $request, $blogId)
@@ -27,7 +26,6 @@ class CommentController extends Controller
      * Handle add new comment and load new list comment.
      *
      * @param Request $request
-     *
      * @return array
      */
     public function create(Request $request)
@@ -53,7 +51,6 @@ class CommentController extends Controller
      * Handle get list comment by blogId.
      *
      * @param Request $request
-     *
      * @return array $listComments
      */
     private function getCommentsbyBlogId($blogId)
