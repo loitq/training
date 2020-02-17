@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Blog;
 use App\Comments;
-use App\MagicNumberConst;
+use App\Constant;
 use Auth;
 
 class CommentController extends Controller
@@ -43,16 +43,14 @@ class CommentController extends Controller
             $comment->save();
         } catch (Exception $e) {
             return [
-                'error' => MagicNumberConst::ERROR,
+                'error' => Constant::ERROR,
                 'message' => $e->getMessage()
             ];
         }
-        $listComments = $this->getCommentsByBlogId($request['blogId']);
 
         return [
-            'error' => MagicNumberConst::SUCCESS,
-            'blogId' => $request['blogId'],
-            'listComments' => $listComments
+            'error' => Constant::SUCCESS,
+            'blogId' => $request['blogId']
         ];
     }
 
@@ -69,7 +67,7 @@ class CommentController extends Controller
         }])
         ->where('blog_id', $blogId)
         ->select(['id', 'user_id', 'comment_content'])
-        ->take(MagicNumberConst::LIMIT_COMMENT)
+        ->take(Constant::LIMIT_COMMENT)
         ->orderBy('created_at', 'desc')
         ->get()
         ->toArray();

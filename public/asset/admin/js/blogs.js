@@ -1,24 +1,21 @@
-$(function() 
+function viewComment(blogId) 
 {
-    $(".view-comment").click(function(event) {
-        var blogId = event.target.id;
-        $.ajaxSetup({
-            headers:
-                {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-        });
-        $.ajax({
-            type: "GET",
-            url:'blog/'+ blogId +'/comment',
-            success: function(data) {
-                $("#list-comment-"+blogId).append(generateListComment(data));
-                $("#send-comment-"+blogId).append(generateSendComment(blogId));
-                $("#"+blogId).hide();
-            }
-        });
-    })
-});
+    $.ajaxSetup({
+        headers:
+            {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+    });
+    $.ajax({
+        type: "GET",
+        url:'blog/'+ blogId +'/comment',
+        success: function(data) {
+            $("#list-comment-"+blogId).append(generateListComment(data));
+            $("#send-comment-"+blogId).append(generateSendComment(blogId));
+            $("#"+blogId).hide();
+        }
+    });
+};
 
 function generateListComment(listComments)
 {
@@ -71,7 +68,13 @@ function addNewComment(blogId)
         success: function(data) {
             if(data.error == 0) {
                 $("#list-comment-"+blogId).empty();
-                $("#list-comment-"+blogId).append(generateListComment(data.listComments));
+                $.ajax({
+                    type: "GET",
+                    url:'blog/'+ blogId +'/comment',
+                    success: function(data) {
+                        $("#list-comment-"+blogId).append(generateListComment(data));
+                    }
+                });
                 $("#comment"+blogId).val('');
                 $(".send-comment-"+blogId).hide();
             }else {

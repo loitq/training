@@ -18,9 +18,9 @@ class Comments extends Model
     }
 
     /**
-     * Relationship many to one.
+     * Relationship one to many.
      *
-     * @return array App\User
+     * @return App\User
      */
     public function user()
     {

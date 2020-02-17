@@ -2,7 +2,7 @@
 
 namespace App;
 
-class MagicNumberConst
+class Constant
 {
     const LIMIT_COMMENT = 5;
     const PAGINATE_BLOG = 10;

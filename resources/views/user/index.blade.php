@@ -13,7 +13,7 @@
             {{ $blog['content'] }}
         </div>
         <div class="panel-footer">
-            <a class="view-comment" role="button" id="{{ $blog['id'] }}">Comment</a>
+            <a class="view-comment" role="button" onclick="viewComment({{ $blog['id'] }})" id="{{ $blog['id'] }}">Comment</a>
             <div id="list-comment-{{$blog['id']}}"></div>
             <div id="send-comment-{{$blog['id']}}"></div>
         </div>

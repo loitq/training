@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Blog;
 use App\Comments;
-use App\MagicNumberConst;
+use App\Constant;
 use Auth;
 
 class UserController extends Controller
@@ -24,7 +24,7 @@ class UserController extends Controller
         }])
             ->select(['id', 'user_id', 'title', 'content'])
             ->orderBy('created_at', 'desc')
-            ->paginate(MagicNumberConst::PAGINATE_BLOG);
+            ->paginate(Constant::PAGINATE_BLOG);
         return view('user.index', [
             'blogs' => $blog
         ]);
