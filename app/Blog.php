@@ -14,6 +14,26 @@ class Blog extends Model
     * @var string
     */
     protected $table = 'blogs';
+    
+    /**
+     * Relationship many to one.
+     *
+     * @return array App\Blog
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relationship one to many.
+     *
+     * @return App\Comments
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comments::class);
+    }
 
     use SoftDeletes;
 
