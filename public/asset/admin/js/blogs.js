@@ -46,7 +46,7 @@ function generateSendComment(blogId)
     viewSendComment += 
         "<div class='form-group'>" + 
             "<label class='sr-only' for='comment'></label>" +
-            "<input type='text' onkeyup='showSendButton("+ blogId +")' class='form-control' id='comment" + blogId +"'> " +
+            "<input type='text' onkeyup='showSendButton("+ blogId +")' class='form-control'  placeholder='Comment' id='comment" + blogId +"'> " +
         "</div>" +
         "<a role='button' style='display:none' onclick='addNewComment("+ blogId +")' class='btn btn-primary send-comment-"+ blogId + "' id='" + blogId + "'>Send</a>";
     return viewSendComment;
@@ -69,10 +69,14 @@ function addNewComment(blogId)
             'comment_content': commentContent
         },
         success: function(data) {
-            $("#list-comment-"+blogId).empty();
-            $("#list-comment-"+blogId).append(generateListComment(data.listComments));
-            $("#comment"+blogId).val('');
-            $(".send-comment-"+blogId).hide();
+            if(data.error == 0) {
+                $("#list-comment-"+blogId).empty();
+                $("#list-comment-"+blogId).append(generateListComment(data.listComments));
+                $("#comment"+blogId).val('');
+                $(".send-comment-"+blogId).hide();
+            }else {
+                alert(data.message)
+            }
         }
     });
 }

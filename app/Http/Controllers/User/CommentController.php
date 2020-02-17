@@ -31,17 +31,24 @@ class CommentController extends Controller
     public function create(Request $request)
     {
         $user = Auth::user();
-        $comment =  new Comments();
+        try {
+            $comment =  new Comments();
 
-        $comment->user_id = $user->id;
-        $comment->blog_id = $request['blogId'];
-        $comment->comment_content = $request->comment_content;
+            $comment->user_id = $user->id;
+            $comment->blog_id = $request['blogId'];
+            $comment->comment_content = $request->comment_content;
 
-        $comment->save();
-
+            $comment->save();
+        } catch (Exception $e) {
+            return [
+                'error' => 1,
+                'message' => $e->getMessage()
+            ];
+        }
         $listComments = $this->getCommentsbyBlogId($request['blogId']);
 
         return [
+            'error' => 0,
             'blogId' => $request['blogId'],
             'listComments' => $listComments
         ];
