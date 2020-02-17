@@ -52,5 +52,8 @@ Route::middleware('auth')->group(function () {
         // route user's blog
         Route::get('/blog', 'BlogController@index')->name('blog.index');
         Route::post('/blog/stores', 'BlogController@store')->name('blog.store');
+        Route::get('/blog/{id}/delete', 'BlogController@destroy')->name('blog.destroy');
+        Route::get('/blog/{id}/edit', 'BlogController@edit')->name('blog.edit');
+        Route::post('/blog/{id}/update', 'BlogController@update')->name('blog.update');
     });
 });

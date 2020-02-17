@@ -20,7 +20,7 @@ $(function()
     })
 });
 
-function generateListComment(listComments) 
+function generateListComment(listComments)
 {
     var viewListComment = "";
     if (listComments != '') {
@@ -28,7 +28,7 @@ function generateListComment(listComments)
             viewListComment +=
             "<div class='panel panel-info'>" +
                 "<div class='panel-heading'>" +
-                    "<h6>" + element.user.name + "</h>" + 
+                    "<h5>" + element.user.name + "</h5>" + 
                 "</div>" +
                 "<div class='panel-body'>" +
                     element.comment_content + 
