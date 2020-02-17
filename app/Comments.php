@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Comments extends Model
 {
     protected $table = 'comments';
-    const LIMIT_COMMENT = 5;
     /**
      * Relationship one to many.
      *
@@ -21,7 +20,7 @@ class Comments extends Model
     /**
      * Relationship many to one.
      *
-     * @return array App\Blog
+     * @return array App\User
      */
     public function user()
     {

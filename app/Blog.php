@@ -14,7 +14,6 @@ class Blog extends Model
     * @var string
     */
     protected $table = 'blogs';
-    const PAGINATE_BLOG = 10;
     
     /**
      * Relationship many to one.

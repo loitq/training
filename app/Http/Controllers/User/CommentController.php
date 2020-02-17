@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Blog;
 use App\Comments;
+use App\MagicNumberConst;
 use Auth;
 
 class CommentController extends Controller
@@ -15,6 +16,7 @@ class CommentController extends Controller
      * Handle get list comment.
      *
      * @param Request $request
+     * @param int $blogId
      * @return array $listComments
      */
     public function index(Request $request, $blogId)
@@ -41,14 +43,14 @@ class CommentController extends Controller
             $comment->save();
         } catch (Exception $e) {
             return [
-                'error' => 1,
+                'error' => MagicNumberConst::ERROR,
                 'message' => $e->getMessage()
             ];
         }
-        $listComments = $this->getCommentsbyBlogId($request['blogId']);
+        $listComments = $this->getCommentsByBlogId($request['blogId']);
 
         return [
-            'error' => 0,
+            'error' => MagicNumberConst::SUCCESS,
             'blogId' => $request['blogId'],
             'listComments' => $listComments
         ];
@@ -57,17 +59,17 @@ class CommentController extends Controller
     /**
      * Handle get list comment by blogId.
      *
-     * @param Request $request
+     * @param int $blogId
      * @return array $listComments
      */
-    private function getCommentsbyBlogId($blogId)
+    private function getCommentsByBlogId($blogId)
     {
         $listComments = Comments::with(['user' => function ($query) {
             $query->select('id', 'name');
         }])
         ->where('blog_id', $blogId)
         ->select(['id', 'user_id', 'comment_content'])
-        ->take(Comments::LIMIT_COMMENT)
+        ->take(MagicNumberConst::LIMIT_COMMENT)
         ->orderBy('created_at', 'desc')
         ->get()
         ->toArray();
