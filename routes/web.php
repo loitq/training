@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     //Route User
     Route::namespace('User')->group(function () {
         Route::get('/blog', 'BlogController@index')->name('blog.index');
-        Route::post('/blog/stores', 'BlogController@store')->name('blog.store');
+        Route::post('/blog/store', 'BlogController@store')->name('blog.store');
         Route::get('/blog/{id}/delete', 'BlogController@destroy')->name('blog.destroy');
         Route::get('/blog/{id}/edit', 'BlogController@edit')->name('blog.edit');
         Route::post('/blog/{id}/update', 'BlogController@update')->name('blog.update');

@@ -136,36 +136,4 @@
     </div>  
 </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">User ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            @foreach ($blogs as $blog)
-                <tr>
-                    <td scope="row">{{$blog->id}}</td>
-                    <td>{{$blog->user_id}}</td>
-                    <td>{{$blog->title}}</td>
-                    <td>
-                        <form action="" name="form-edit" method="GET">
-                            <button type="submit" class="btn btn-info">Edit</button>
-                        </form>
-                        @if($canDelete === true)
-                            <form action="" name="form-edit" method="DELETE">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
-        </tr>
-    </tbody>
-</table>
-
 @endsection
