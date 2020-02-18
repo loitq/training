@@ -52,6 +52,7 @@
     </script>
 
     <script src="asset/admin/js/blogs.js">
+    </script>
     <!-- ckeditor -->
     <script src="{{ asset('ckeditor/ckeditor.js') }}">
     </script>
