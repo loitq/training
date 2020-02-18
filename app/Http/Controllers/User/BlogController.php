@@ -121,7 +121,7 @@ class BlogController extends Controller
         ]);
         $blog = Blog::find($id);
         if (!isset($blog)) {
-            return redirect()->back()->withErrors('Blog not found !');
+            return redirect()->route('blog.index')->withErrors('Blog not found !');
         }
 
         //update blog
