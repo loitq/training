@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
+    const USER_RECORD_NUMBER = 2;
     /**
      * Run the database seeds.
      */
@@ -14,6 +15,7 @@ class UsersTableSeeder extends Seeder
             'email'    => "loitq@lifull-tech.vn",
             'role'     => \App\User::ADMIN,
             'password' => Hash::make("lifull@123"),
+            'can_see' => \APP\User::IS_TRUE,
         ]);
 
         DB::table('users')->insert([
@@ -21,6 +23,9 @@ class UsersTableSeeder extends Seeder
             'email'    => "user@lifull-tech.vn",
             'role'     => \App\User::USER,
             'password' => Hash::make("lifull@123"),
+            'can_see' => \APP\User::IS_TRUE,
         ]);
+
+        factory(App\User::class, USER_RECORD_NUMBER)->create();
     }
 }
