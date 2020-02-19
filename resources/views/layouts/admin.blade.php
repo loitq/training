@@ -24,7 +24,7 @@
 <body>
     
     <!-- Page Content -->
-    <div id="wrapper">    
+    <div id="wrapper">
         @include('partials.header')
         @include('admin.sidebar')
         <!-- Page Content -->
