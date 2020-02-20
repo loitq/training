@@ -23,7 +23,8 @@ Route::middleware('auth')->group(function () {
     //Route Admin
     Route::group([
         'prefix' => 'admin',
-        'namespace' => 'Admin'
+        'namespace' => 'Admin',
+        'middleware' => 'admin'
     ], function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
         Route::get('/', 'AdminController@index')->name('admin.index');
@@ -45,7 +46,11 @@ Route::middleware('auth')->group(function () {
     });
 
     //Route User
-    Route::namespace('User')->group(function () {
+    Route::group([
+        'namespace' => 'User',
+        'middleware' => 'user'
+    ], function () {
+        // Controllers Within The "App\Http\Controllers\User" Namespace
         Route::get('/', 'UserController@index')->name('user.index');
         Route::get('/blog/{id}/comment', 'CommentController@index')->name('blog.comment.index');
         Route::post('/blog/comment/create', 'CommentController@create')->name('blog.comment.store');
