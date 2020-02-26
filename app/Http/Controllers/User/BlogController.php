@@ -45,7 +45,7 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:100|min:10',
+            'title' => 'required|max:100|min:5',
             'content' => 'required',
         ]);
         
@@ -116,7 +116,7 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|max:100|min:10',
+            'title' => 'required|max:100|min:5',
             'content' => 'required',
         ]);
         $blog = Blog::find($id);
