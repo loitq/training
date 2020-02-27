@@ -48,11 +48,11 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="blog-title" class="col-form-label">Title:</label>
-                                    <input type="text" class="form-control" id="blog-title" name="title">
+                                    <input type="text" class="form-control" id="title" name="title">
                                 </div>
                                 <div class="form-group">
                                     <label for="blog-content" class="col-form-label">Content:</label>
-                                    <textarea class="ckeditor" id="blog-content" name="content"></textarea>
+                                    <textarea class="ckeditor" id="content" name="content"></textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -89,12 +89,12 @@
                                         <td>{{$blog->title}}</td>
                                         <td >
                                             <form action="{{route('blog.edit', ['id' => $blog->id])}}" name="form-edit" method="GET">
-                                                <button type="submit" class="btn btn-info">Edit</button>
+                                                <button type="submit" class="btn btn-info" dusk="blog-edit-{{$blog->id}}">Edit</button>
                                             </form>
                                         </td>
                                         <td class="center">
                                             @if($canDelete === true)
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{$blog->id}}">Delete</button>
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{$blog->id}}" dusk="blog-delete-{{$blog->id}}">Delete</button>
                                                 <form action="{{route('blog.destroy',['id' => $blog->id])}}" name="form-edit" method="GET">
                                                 <!-- Modal -->
                                                     <div class="modal fade" id="deleteModal{{$blog->id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -111,7 +111,7 @@
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                                    <button type="submit" class="btn btn-danger">Confirm</button>
                                                                 </div>
                                                             </div>
                                                         </div>
