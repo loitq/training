@@ -115,7 +115,7 @@ class BlogManageTest extends DuskTestCase
      */
     public function testBlogListUseHaveNotPermissionDeleteBlog()
     {
-        $user = $this->userCanSeeCanNotDelete();
+        $user = $this->userCanSee();
         $this->browse(function ($browser) use ($user) {
             $browser->visit('/login')
                     ->loginAs($user)
@@ -157,7 +157,7 @@ class BlogManageTest extends DuskTestCase
                     ->press('Create Blog')
                     ->waitFor('#createModal')
                     ->type('title', 'Lốc bụi cao 650 m trên sao Hỏa')
-                    ->script("CKEDITOR.instances['content'].setData('content');");
+                    ->script("CKEDITOR.instances['blog-content'].setData('content');");
                     
             $browser->waitForText('Submit')
                     ->press('Submit')
@@ -184,7 +184,7 @@ class BlogManageTest extends DuskTestCase
                     ->press('Create Blog')
                     ->waitFor('#createModal')
                     ->type('title', 'Lốc')
-                    ->script("CKEDITOR.instances['content'].setData('content');");
+                    ->script("CKEDITOR.instances['blog-content'].setData('content');");
 
             $browser->waitForText('Submit')
                     ->press('Submit')
@@ -214,7 +214,7 @@ class BlogManageTest extends DuskTestCase
                     ->press('Create Blog')
                     ->waitFor('#createModal')
                     ->type('title', $textOver100)
-                    ->script("CKEDITOR.instances['content'].setData('content');");
+                    ->script("CKEDITOR.instances['blog-content'].setData('content');");
 
             $browser->waitForText('Submit')
                     ->press('Submit')
@@ -288,7 +288,7 @@ class BlogManageTest extends DuskTestCase
                     ->visit('/blog')
                     ->press('Create Blog')
                     ->waitFor('#createModal')
-                    ->script("CKEDITOR.instances['content'].setData('content');");
+                    ->script("CKEDITOR.instances['blog-content'].setData('content');");
 
             $browser->waitForText('Submit')
                     ->press('Submit')
@@ -312,12 +312,12 @@ class BlogManageTest extends DuskTestCase
                     ->visit('/blog')
                     ->click('@blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
-                    ->type('title', 'user can see title2 edit')
+                    ->type('title', 'user can see title b edit')
                     ->script("CKEDITOR.instances['content'].setData('content edit');");
             $browser->press('Submit')
                     ->assertPathIs('/blog')
                     ->assertSee('Update blog success!')
-                    ->assertSee('user can see title2 edit');
+                    ->assertSee('user can see title b edit');
         });
     }
 
@@ -360,7 +360,7 @@ class BlogManageTest extends DuskTestCase
                     ->visit('/blog')
                     ->click('@blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
-                    ->type('title', 'user can see title2 edit')
+                    ->type('title', 'user can see title b edit')
                     ->script("CKEDITOR.instances['content'].setData('');");
             $browser->press('Submit')
                     ->assertPathIs('/blog/2/edit')

@@ -80,16 +80,4 @@ abstract class DuskTestCase extends BaseTestCase
         
         return $user;
     }
-
-    /**
-     * Create user can see but can't delete blog
-     *
-     * @return $user
-     */
-    public function userCanSeeCanNotDelete()
-    {
-        $user = User::where('name', '=', 'user_can_not_delete')->first();
-        
-        return $user;
-    }
 }

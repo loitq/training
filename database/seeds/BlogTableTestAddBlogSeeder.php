@@ -17,79 +17,60 @@ class BlogTableTestAddBlogSeeder extends Seeder
      */
     public function run()
     {
-        //add data for user can see
+        //add data for user only can see
         DB::table('blogs')->insert([
             'user_id' => _UserCanSeeId,
-            'title' => 'user can see title1',
+            'title' => 'user can see title a',
             'content' => 'content'
         ]);
 
         DB::table('blogs')->insert([
             'user_id' => _UserCanSeeId,
-            'title' => 'user can see title2',
+            'title' => 'user can see title b',
             'content' => 'content'
         ]);
         
         DB::table('blogs')->insert([
             'user_id' => _UserCanSeeId,
-            'title' => 'user can see title3',
+            'title' => 'user can see title c',
             'content' => 'content'
         ]);
         
         //add data for user can delete
         DB::table('blogs')->insert([
             'user_id' => _UserCanDeleteId,
-            'title' => 'user can delete title1',
+            'title' => 'user can delete title a',
             'content' => 'content'
         ]);
 
         DB::table('blogs')->insert([
             'user_id' => _UserCanDeleteId,
-            'title' => 'user can delete title2',
+            'title' => 'user can delete title b',
             'content' => 'content'
         ]);
         
         DB::table('blogs')->insert([
             'user_id' => _UserCanDeleteId,
-            'title' => 'user can delete title3',
+            'title' => 'user can delete title c',
             'content' => 'content'
         ]);
 
         //add data for user can not see
         DB::table('blogs')->insert([
             'user_id' => _UserCanNotSeeId,
-            'title' => 'user can not see title1',
+            'title' => 'user can not see title a',
             'content' => 'content'
         ]);
 
         DB::table('blogs')->insert([
             'user_id' => _UserCanNotSeeId,
-            'title' => 'user can not see title2',
+            'title' => 'user can not see title b',
             'content' => 'content'
         ]);
         
         DB::table('blogs')->insert([
             'user_id' => _UserCanNotSeeId,
-            'title' => 'user can not see title3',
-            'content' => 'content'
-        ]);
-
-        //add data for user can not delete
-        DB::table('blogs')->insert([
-            'user_id' => _UserCanNotDeleteId,
-            'title' => 'user can not delete title1',
-            'content' => 'content'
-        ]);
-
-        DB::table('blogs')->insert([
-            'user_id' => _UserCanNotDeleteId,
-            'title' => 'user can not delete title2',
-            'content' => 'content'
-        ]);
-        
-        DB::table('blogs')->insert([
-            'user_id' => _UserCanNotDeleteId,
-            'title' => 'user can not delete title3',
+            'title' => 'user can not see title c',
             'content' => 'content'
         ]);
     }
