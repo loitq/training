@@ -17,6 +17,7 @@ class User extends Authenticatable
     const PAGINATE_USER = 3;
     const IS_TRUE = 1;
     const IS_FALSE = 0;
+    const _PASSWORD_DEFAULT = 'lifull@123';
     /**
      * The attributes that are mass assignable.
      *

@@ -43,12 +43,10 @@ abstract class DuskTestCase extends BaseTestCase
         );
     }
 
-    public $passwordDefault = 'lifull@123';
-
     /**
      * Create user can see blog.
      *
-     * @return $user
+     * @return object $user
      */
     public function userCanSee()
     {
@@ -60,7 +58,7 @@ abstract class DuskTestCase extends BaseTestCase
     /**
      * Create user can't see blog.
      *
-     * @return $user
+     * @return object $user
      */
     public function userCannotSee()
     {
@@ -72,7 +70,7 @@ abstract class DuskTestCase extends BaseTestCase
     /**
      * Create user can see and delete blog
      *
-     * @return $user
+     * @return object $user
      */
     public function userCanSeeAndDelete()
     {

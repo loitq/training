@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 
-define("_BLOG_TEST_RECORD_NUMBER", 5);
 define('_UserCanSeeId', 1);
 define('_UserCanDeleteId', 2);
 define('_UserCanNotSeeId', 3);
