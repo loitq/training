@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class BlogManageTest extends DuskTestCase
-{   
+{
     use DatabaseMigrations;
 
     public function setUp() :void
@@ -29,7 +29,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Test login blog with user can see blog.
      * case 1.1: Test screen Blog list
-     * 
+     *
      * @return void
      */
     public function testLoginBlog()
@@ -47,7 +47,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Test popup create blog with user can see blog.
      * case 1.2: Test popup Create blog
-     * 
+     *
      * @return void
      */
     public function testShowPopupCreateBlog()
@@ -67,7 +67,7 @@ class BlogManageTest extends DuskTestCase
      /**
      * Test screen Edit blog by user.
      * case 1.3: Edit blog: Test screen Edit blog by user
-     * 
+     *
      * @return void
      */
     public function testScreenEditBlog()
@@ -86,7 +86,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Test screen delete blog by user.
      * case 1.4: Delete blog: Test screen delete blog by user
-     * 
+     *
      * @return void
      */
     public function testScreenDeleteBlog()
@@ -106,7 +106,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Blog list have not permission see blog
      * case 1.5: Blog list have not permission see blog
-     * 
+     *
      * @return void
      */
     public function testBlogListUseHaveNotPermissionSeeBlog()
@@ -124,7 +124,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Blog list: User have not permission delete blog
      * case 1.6: Blog list: User have not permission delete blog
-     * 
+     *
      * @return void
      */
     public function testBlogListUseHaveNotPermissionDeleteBlog()
@@ -142,7 +142,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Test Enter url not defined in route
      * case 1.7: Enter url not defined in route
-     * 
+     *
      * @return void
      */
     public function testLoginUrlNotExist()
@@ -160,7 +160,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Test create blog with user can see blog.
      * case 2.1: Create blog: Fill all input
-     * 
+     *
      * @return void
      */
     public function testCreateBlogFillAllInput()
@@ -188,7 +188,7 @@ class BlogManageTest extends DuskTestCase
      * Test create blog with user can see blog.
      * case 2.2: Create blog: Fill all input but fill in title less than 5 characters
      * Error
-     * 
+     *
      * @return void
      */
     public function testCreateBlogFillTitleLessThan5Character()
@@ -216,7 +216,7 @@ class BlogManageTest extends DuskTestCase
      * Test create blog with user can see blog.
      * case 2.3: Create blog: Fill all input but fill in title over 100 characters
      * Error
-     * 
+     *
      * @return void
      */
     public function testCreateBlogFillTitleOver100Character()
@@ -225,7 +225,7 @@ class BlogManageTest extends DuskTestCase
         $data = $this->getDataTest();
         $this->browse(function ($browser) use ($user, $data) {
             //string over 100 character
-            $textOver100 = str_repeat('a', 101); 
+            $textOver100 = str_repeat('a', 101);
 
             $browser->visit($data['path']['login'])
                     ->loginAs($user)
@@ -247,7 +247,7 @@ class BlogManageTest extends DuskTestCase
      * Test create blog with user can see blog.
      * case 2.4: Create blog: Do not fill input
      * Error
-     * 
+     *
      * @return void
      */
     public function testCreateBlogDoNotFillInput()
@@ -272,7 +272,7 @@ class BlogManageTest extends DuskTestCase
      * Test create blog with user can see blog.
      * case 2.5: - Create blog: Content input empty
      * Error
-     * 
+     *
      * @return void
      */
     public function testCreateBlogContentInputEmpty()
@@ -297,7 +297,7 @@ class BlogManageTest extends DuskTestCase
      * Test create blog with user can see blog.
      * case 2.6: - Create blog: Title input empty
      * Error
-     * 
+     *
      * @return void
      */
     public function testCreateBlogTitleInputEmpty()
@@ -322,7 +322,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Edit blog.
      * case 2.7: Edit blog: Fill all input
-     * 
+     *
      * @return void
      */
     public function testEditBlogFillAllInput()
@@ -347,7 +347,7 @@ class BlogManageTest extends DuskTestCase
      /**
      * Edit blog.
      * case 2.8: Edit blog: Title and content input empty
-     * 
+     *
      * @return void
      */
     public function testEditBlogTitleAndContentEmpty()
@@ -372,7 +372,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Edit blog.
      * case 2.9: Edit blog: Content input empty
-     * 
+     *
      * @return void
      */
     public function testEditBlogContentEmpty()
@@ -396,7 +396,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Edit blog.
      * case 2.10: Edit blog: Title input empty
-     * 
+     *
      * @return void
      */
     public function testEditBlogTitleEmpty()
@@ -420,7 +420,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Edit blog.
      * case 2.11: Edit blog: Blog not found
-     * 
+     *
      * @return void
      */
     public function testEditBlogNotFound()
@@ -447,7 +447,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Edit blog.
      * case 2.12: Edit blog: Not change anything.
-     * 
+     *
      * @return void
      */
     public function testEditBlogNotChangeAnything()
@@ -469,7 +469,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Test delete blog by user.
      * case 2.13: Delete blog: Confirm
-     * 
+     *
      * @return void
      */
     public function testDeleteBlogConfirm()
@@ -491,7 +491,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Test delete blog by user.
      * case 2.14: Delete blog: Click close popup
-     * 
+     *
      * @return void
      */
     public function testDeleteBlogClickClosePopup()
@@ -512,7 +512,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Test delete blog by user.
      * case 2.15: Delete blog: Click outside popup
-     * 
+     *
      * @return void
      */
     public function testDeleteBlogClickOusitePopup()
@@ -533,7 +533,7 @@ class BlogManageTest extends DuskTestCase
     /**
      * Delete blog.
      * case 2.16: Delete blog:  Blog not found
-     * 
+     *
      * @return void
      */
     public function testDeleteBlogNotFound()
