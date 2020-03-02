@@ -14,235 +14,323 @@ class UserTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    /**
+     * Permisson account admin
+     *
+     * @return $admin
+     */
+    public  function accountAdmin()
+    {
+        $admin = factory(User::class)->create(['role' => \App\User::ADMIN]);
+        $this->actingAs($admin);
+
+        return $admin;
+    }
+
+    /**
+     * Admin login to page user list
+     *
+     * @return void
+     */
     public function testLinkToPageAdmin()
     {
-        $user = factory(User::class)->create();
-        $this->actingAs($user);
+        $admin = $this->accountAdmin();
+
         $response = $this->get('/admin/user/list');
-        $response->assertStatus(200 , $response->getStatusCode());
+        $response->assertStatus(200, $response->getStatusCode());
     }
+
     /**
-    * @Test function create user with all checkbox true
-    *  case 2-1
-    */
+     * Test function create user with all checkbox true
+     *  case 2-1
+     *
+     * @return void
+     */
     public function testCreateUserAllCheckboxTrue()
     {
-        $user = factory(User::class)->create([
+        $admin = $this->accountAdmin();
+
+        $params = [
             'email' => 'loitq1@lifull@tech.vn',
-            'name' => 'Phan Tuan',
+            'username' => 'Phan Tuan',
             'password' => '123456',
             'can_see' => \App\User::IS_TRUE,
             'can_delete' => \App\User::IS_TRUE,
-        ]);
-
-        $this->post('admin.user.handleCreate',$user->toArray());
-
-        $this->assertEquals(1,User::all()->count());
+        ];
+        $response = $this->post(route('admin.user.handleCreate'), $params);
+        $response->assertRedirect();
     }
 
     /** 
-    * @Test function create user with checkbox can see true
-    * 2-2
-    */
+     * Test function create user with checkbox can see true
+     * case 2-2
+     * 
+     * @return void
+     */
     public function testCreateUserCheckboxCanSeeTrue()
     {
-        $user = factory(User::class)->create([
-            'email' => 'loitq@lifull@tech.vn',
-            'name' => 'Phan Tuan',
+        $admin = $this->accountAdmin();
+
+        $params = [
+            'email' => 'loitq1@lifull@tech.vn',
+            'username' => 'Phan Tuan',
             'password' => '123456',
             'can_see' => \App\User::IS_TRUE,
             'can_delete' => \App\User::IS_FALSE,
-        ]);
+        ];
 
-        $this->post('admin.user.handleCreate',$user->toArray());
- 
-        $this->assertEquals(1,User::all()->count());
+        $response = $this->post(route('admin.user.handleCreate'), $params);
+        $response->assertRedirect();
     }
 
     /** 
-    * @Test function create user with checkbox can delete true
-    * 2-3
-    */
+     * Test function create user with checkbox can delete true
+     * case 2-3
+     *
+     * @return void
+     */
     public function testCreateUserCheckboxCanDeleteTrue()
     {
-        $user = factory(User::class)->create([
-            'email' => 'loitq@lifull@tech.vn',
-            'name' => 'Phan Tuan',
+        $admin = $this->accountAdmin();
+
+        $params = [
+            'email' => 'loitq1@lifull@tech.vn',
+            'username' => 'Phan Tuan',
             'password' => '123456',
             'can_see' => \App\User::IS_FALSE,
             'can_delete' => \App\User::IS_TRUE,
-        ]);
+        ];
 
-        $this->post('admin.user.handleCreate',$user->toArray());
- 
-        $this->assertEquals(1,User::all()->count());
+        $response = $this->post(route('admin.user.handleCreate'), $params);
+        $response->assertRedirect();
     }
 
     /** 
-    * @Test function create user with all checkbox false
-    * 2-4
-    */
+     * Test function create user with all checkbox false
+     * case 2-4
+     *
+     * @return void
+     */
     public function testCreateUserAllCheckboxFalse()
     {
-        $user = factory(User::class)->create([
+        $admin = $this->accountAdmin();
+
+        $params = [
             'email' => 'loitq1@lifull@tech.vn',
-            'name' => 'Phan Tuan',
+            'username' => 'Phan Tuan',
             'password' => '123456',
             'can_see' => \App\User::IS_FALSE,
             'can_delete' => \App\User::IS_FALSE,
-        ]);
+        ];
 
-        $this->post('admin.user.handleCreate',$user->toArray());
- 
-        $this->assertEquals(1,User::all()->count());
+        $response = $this->post(route('admin.user.handleCreate'), $params);
+        $response->assertRedirect();
     }
 
     /** 
-    * @Test function create user with username empty
-    * 2-5
-    */
+     * Test function create user with username empty
+     * case 2-5
+     *
+     * @return void
+     */
     public function testCreateUserFailWithUsernameEmpty()
     {
-        $user = factory(User::class)->create([
+        $admin = $this->accountAdmin();
+
+        $params = [
             'email' => 'loitq1@lifull@tech.vn',
-            'name' => '',
+            'username' => '',
             'password' => '123456',
             'can_see' => \App\User::IS_FALSE,
             'can_delete' => \App\User::IS_FALSE,
-        ]);
+        ];
 
-        $this->post('admin.user.handleCreate',$user->toArray());
-
-        $this->assertFalse(is_null($user->name));
+        $response = $this->post(route('admin.user.handleCreate'), $params);
+        $response->assertStatus(302)
+            ->assertSessionHasErrors('username');
     }
 
     /** 
-    * @Test function create user with email empty
-    * 2-6
-    */
+     * Test function create user with email empty
+     * case 2-6
+     *
+     * @return void
+     */
     public function testCreateUserWithEmailEmpty()
     {
-        $user = factory(User::class)->create([
+        $admin = $this->accountAdmin();
+
+        $params = [
             'email' => '',
-            'name' => 'Phan Tuan',
+            'username' => 'Phan Tuan',
             'password' => '123456',
             'can_see' => \App\User::IS_FALSE,
             'can_delete' => \App\User::IS_FALSE,
-        ]);
+        ];
 
-        $this->post('admin.user.handleCreate',$user->toArray());
-
-        $this->assertFalse(is_null($user->email));
+        $response = $this->post(route('admin.user.handleCreate'), $params);
+        $response->assertStatus(302)
+            ->assertSessionHasErrors('email');
     }
 
     /** 
-    * @Test function create user with password empty
-    * 2-7
-    */
+     * Test function create user with password empty
+     * case 2-7
+     *
+     * @return void
+     */
     public function testCreateUserWithPasswordEmpty()
     {
-        $user = factory(User::class)->create([
+        $admin = $this->accountAdmin();
+
+        $params = [
             'email' => '',
-            'name' => 'Phan Tuan',
-            'password' => '123456',
-            'can_see' => \App\User::IS_FALSE,
-            'can_delete' => \App\User::IS_FALSE,
-        ]);
-
-        $this->post('admin.user.handleCreate',$user->toArray());
-
-        $this->assertFalse(is_null($user->password));
-    }
-
-    /** 
-    * @Test function create user with all textbox empty
-    * 2-8
-    */
-    public function testCreateUserWithAllTextboxEmpty()
-    {
-        $user = factory(User::class)->create([
-            'email' => '',
-            'name' => '',
+            'username' => 'Phan Tuan',
             'password' => '',
             'can_see' => \App\User::IS_FALSE,
             'can_delete' => \App\User::IS_FALSE,
-        ]);
+        ];
 
-        $this->post('admin.user.handleCreate',$user->toArray());
+        $response = $this->post(route('admin.user.handleCreate'), $params);
+        $response->assertStatus(302)
+            ->assertSessionHasErrors('password');
+    }
 
-        $this->assertFalse(is_null($user->email));
-        $this->assertFalse(is_null($user->name));
-        $this->assertFalse(is_null($user->password));
+    /**
+     * Test function create user with all textbox empty
+     * case 2-8
+     *
+     * @return void
+     */
+    public function testCreateUserWithAllTextboxEmpty()
+    {
+        $admin = $this->accountAdmin();
+
+        $params = [
+            'email' => '',
+            'username' => '',
+            'password' => '',
+            'can_see' => \App\User::IS_FALSE,
+            'can_delete' => \App\User::IS_FALSE,
+        ];
+
+        $response = $this->post(route('admin.user.handleCreate'), $params);
+        $response->assertStatus(302)
+            ->assertSessionHasErrors('email')
+            ->assertSessionHasErrors('username')
+            ->assertSessionHasErrors('password');
     }
 
     /** 
-    * @Test function update user with checkbox can delete true
-    * 2-9
-    */
+     * Test function update user with checkbox can delete true
+     * case 2-9
+     *
+     * @return void
+     */
     public function testUpdateUserCheckboxCanDeleteTrue()
     {
-        $data = [
+        $admin = $this->accountAdmin();
+
+        $params = [
             'can_see' => \App\User::IS_FALSE,
             'can_delete' => \App\User::IS_TRUE,
         ];
+
         $user = factory('App\User')->create();
-        $this->post('user/edit'.$user->id, $data);
-        $this->assertDatabaseHas('users',['id'=> $user->id]);
+        $this->post('user/edit'.$user->id, $params);
+        $this->assertDatabaseHas('users', ['id'=> $user->id]);
     }
 
     /** 
-    * @Test function update user with checkbox can see true
-    * 2-10
-    */
+     * Test function update user with checkbox can see true
+     * case 2-10
+     *
+     * @return void
+     */
     public function testUpdateUserCheckboxCanSeeTrue()
     {
-        $data = [
+        $admin = $this->accountAdmin();
+
+        $params = [
             'can_see' => \App\User::IS_TRUE,
             'can_delete' => \App\User::IS_FALSE,
         ];
+
         $user = factory('App\User')->create();
-        $this->post('user/edit'.$user->id, $data);
-        $this->assertDatabaseHas('users',['id'=> $user->id]);
+        $this->post('user/edit'.$user->id, $params);
+        $this->assertDatabaseHas('users', ['id'=> $user->id]);
     }
 
     /** 
-    * @Test function update user with all checbox false
-    * 2-11
-    */
+     * Test function update user with all checbox false
+     * case 2-11
+     *
+     * @return void
+     */
     public function testUpdateUserAllCheckboxFalse()
     {
-        $data = [
+        $admin = $this->accountAdmin();
+
+        $params = [
             'can_see' => \App\User::IS_FALSE,
             'can_delete' => \App\User::IS_FALSE,
         ];
+
         $user = factory('App\User')->create();
-        $this->post('user/edit'.$user->id, $data);
-        $this->assertDatabaseHas('users',['id'=> $user->id]);
+        $this->post('user/edit'.$user->id, $params);
+        $this->assertDatabaseHas('users', ['id'=> $user->id]);
     }
 
     /**
-    * @Test function update user with all checbox true
-    * 2-13
-    */
+     * Test function update user with all checbox true
+     * case 2-13
+     *
+     * @return void
+     */
     public function testUpdateUserAllCheckboxTrue()
     {
-        $data = [
+        $admin = $this->accountAdmin();
+
+        $params = [
             'can_see' => \App\User::IS_TRUE,
             'can_delete' => \App\User::IS_TRUE,
         ];
+
         $user = factory('App\User')->create();
-        $this->post('user/edit'.$user->id, $data);
-        $this->assertDatabaseHas('users',['id'=> $user->id]);
+        $this->post('user/edit'.$user->id, $params);
+        $this->assertDatabaseHas('users', ['id'=> $user->id]);
     }
 
     /**
-    * @Test function delete user 
-    * case 2-14
-    */
+     * Test function delete user 
+     * case 2-14
+     *
+     * @return void
+     */
     public function testDeleteUser()
     {
+        $admin = $this->accountAdmin();
+
         $user = factory(User::class)->create();
-        $this->post('/user/delete/'. $user->id);
-        $this->assertDatabaseMissing('users', ['id' => $user->id, 'deleted_at' => null]);
+        $response = $this->post('/user/delete/'. $user->id);
+        $this->assertDatabaseMissing(
+            'users', ['id' => $user->id, 'updated_at' => null
+            ]
+        );
+    }
+
+    /**
+     * Test delete user with id not found
+     * case 2-16
+     * @return void
+     */
+    public function testDeleteuserWithIdNotFound()
+    {
+        $admin = $this->accountAdmin();
+
+        $user = factory(User::class)->create();
+        $idNotFound = !($user->id);
+        $response = $this->post('/user/delete/'. $idNotFound);
+        $response->assertStatus(404);
     }
 }
