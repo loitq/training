@@ -19,6 +19,17 @@ class UserTest extends DuskTestCase
 
         return $admin;
     }
+
+    /**
+     * Get data from cogfig to test.
+     * 
+     * @return array
+     */
+    public function getDataTest()
+    {
+        return config('constants');
+    }
+
     /**
      * Admin logged go to dashboard
      * case 1-1
@@ -27,20 +38,21 @@ class UserTest extends DuskTestCase
     public function testLoginToPageAdmin()
     {
         $admin = $this->accountAdmin();
+        $data = $this->getDataTest();
 
         if (!$admin) {
             $admin = factory(User::class)->create([
-                'email' => 'loitq@lifull-tech.vn',
+                'email' => $data['email']['admin'],
                 'password' => bcrypt('lifull@123'),
             ]);
         }
 
-        $this->browse(function (Browser $browser) use ($admin) {
-            $browser->visit('/login')
-                ->type('email', $admin->email)
+        $this->browse(function (Browser $browser) use ($admin, $data) {
+            $browser->visit($data['path']['login'])
+                ->type('email', $data['email']['admin'])
                 ->type('password', 'lifull@123')
                 ->press('Login')
-                ->assertPathIs('/admin');
+                ->assertPathIs($data['path']['admin']);
         });
     }
 
@@ -53,11 +65,13 @@ class UserTest extends DuskTestCase
     public function testClickMenuToPageCreate()
     {
         $admin = $this->accountAdmin();
-        $this->browse(function (Browser $browser) use ($admin) {
+        $data = $this->getDataTest();
+
+        $this->browse(function (Browser $browser) use ($admin, $data) {
             $browser->loginAs($admin)
-                ->visit('/admin/user/list')
+                ->visit($data['path']['listUser'])
                 ->click('@createUser')
-                ->assertPathIs('/admin/user/create');
+                ->assertPathIs($data['path']['createUser']);
         });
     }
 
@@ -70,9 +84,11 @@ class UserTest extends DuskTestCase
     public function testClickMenuToPageEdit()
     {
         $admin = $this->accountAdmin();
-        $this->browse(function (Browser $browser) use ($admin) {
+        $data = $this->getDataTest();
+
+        $this->browse(function (Browser $browser) use ($admin, $data) {
             $browser->loginAs($admin)
-                ->visit('/admin/user/list')
+                ->visit($data['path']['listUser'])
                 ->click('@editUser2')
                 ->assertPathIs('/admin/user/edit/2');
         });
@@ -87,13 +103,14 @@ class UserTest extends DuskTestCase
     public function testPopupDeleteUserPressNoButton()
     {
         $admin = $this->accountAdmin();
-        $this->browse(function (Browser $browser) use ($admin) {
+        $data = $this->getDataTest();
+        $this->browse(function (Browser $browser) use ($admin, $data) {
             $browser->loginAs($admin)
-                ->visit('/admin/user/list')
+                ->visit($data['path']['listUser'])
                 ->click('@deleteModal2')
                 ->waitFor('#myModal2')
                 ->press('No')
-                ->assertPathIs('/admin/user/list');
+                ->assertPathIs($data['path']['listUser']);
         });
     }
 
@@ -106,13 +123,14 @@ class UserTest extends DuskTestCase
     public function testPopupDeleteUser()
     {
         $admin = $this->accountAdmin();
-        $this->browse(function (Browser $browser) use ($admin) {
+        $data = $this->getDataTest();
+        $this->browse(function (Browser $browser) use ($admin, $data) {
             $browser->loginAs($admin)
-                ->visit('/admin/user/list')
+                ->visit($data['path']['listUser'])
                 ->click('@deleteModal2')
                 ->waitFor('#myModal2')
                 ->press('Yes')
-                ->waitForLocation('/admin/user/list')
+                ->waitForLocation($data['path']['listUser'])
                 ->assertSee('Delete account success !');
         });
     }

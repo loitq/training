@@ -15,7 +15,7 @@
                         <a href="/admin/user/list">List</a>
                     </li>
                     <li>
-                        <a id="link-create-user" href="/admin/user/create">Create</a>
+                        <a href="/admin/user/create">Create</a>
                     </li>
                 </ul>
             </li>

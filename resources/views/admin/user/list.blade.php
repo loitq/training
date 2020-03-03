@@ -47,7 +47,7 @@
                                         <td>{{ $user->email }}</td>
                                         <td><input type="checkbox" disabled value="{{ $user->can_see }}" @if (!empty($user->can_see)) checked="checked" @endif></td>
                                         <td><input type="checkbox" disabled value="{{ $user->can_delete }}" @if (!empty($user->can_delete)) checked="checked" @endif></td>
-                                        <td class="center"><a id="link-update-user" href="/admin/user/edit/{{ $user->id }}">Edit</a></td>
+                                        <td class="center"><a href="/admin/user/edit/{{ $user->id }}">Edit</a></td>
                                         <td class="center">
                                             <input type="hidden" class="hiddenID" value="{{ $user->id }}">
                                             <a href="#" class="btnDel" data-toggle="modal" data-target="#myModal{{ $user->id }}">
