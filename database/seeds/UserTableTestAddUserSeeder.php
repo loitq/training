@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\User;
-const _PASSWORD_DEFAULT = 'lifull@123';
+define('_PASSWORD_DEFAULT', 'lifull@123');
 
 class UserTableTestAddUserSeeder extends Seeder
 {
