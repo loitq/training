@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+const _PASSWORD_DEFAULT = 'lifull@123';
 
 class UserTableTestAddUserSeeder extends Seeder
 {
@@ -18,7 +19,7 @@ class UserTableTestAddUserSeeder extends Seeder
             'name'     => "user_can_see",
             'email'    => "user_can_see@lifull-tech.vn",
             'role'     => User::USER,
-            'password' => Hash::make(User::_PASSWORD_DEFAULT),
+            'password' => Hash::make(_PASSWORD_DEFAULT),
             'can_see' => User::IS_TRUE,
             'can_delete' => User::IS_FALSE
         ]);
@@ -28,7 +29,7 @@ class UserTableTestAddUserSeeder extends Seeder
             'name'     => "user_can_see_delete",
             'email'    => "user_can_see_delete@lifull-tech.vn",
             'role'     => User::USER,
-            'password' => Hash::make(User::_PASSWORD_DEFAULT),
+            'password' => Hash::make(_PASSWORD_DEFAULT),
             'can_see' => User::IS_TRUE,
             'can_delete' => User::IS_TRUE
         ]);
@@ -38,7 +39,7 @@ class UserTableTestAddUserSeeder extends Seeder
             'name'     => "user_can_not_see",
             'email'    => "user_can_not_see@lifull-tech.vn",
             'role'     => User::USER,
-            'password' => Hash::make(User::_PASSWORD_DEFAULT),
+            'password' => Hash::make(_PASSWORD_DEFAULT),
             'can_see' => User::IS_FALSE
         ]);
     }
