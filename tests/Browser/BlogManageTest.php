@@ -310,6 +310,7 @@ class BlogManageTest extends DuskTestCase
                     ->visit($data['path']['blog'])
                     ->press('Create Blog')
                     ->waitFor('#createModal')
+                    ->type('title', '')
                     ->script("CKEDITOR.instances['blog-content'].setData('content');");
 
             $browser->waitForText('Submit')
@@ -333,6 +334,7 @@ class BlogManageTest extends DuskTestCase
             $browser->visit($data['path']['login'])
                     ->loginAs($user)
                     ->visit($data['path']['blog'])
+                    ->assertSee('user can see title b')
                     ->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
                     ->type('title', 'user can see title b edit')
@@ -480,11 +482,13 @@ class BlogManageTest extends DuskTestCase
             $browser->visit($data['path']['login'])
                     ->loginAs($user)
                     ->visit($data['path']['blog'])
+                    ->assertSee('user can delete title c')
                     ->click('#blog-delete-6')
                     ->waitFor('#deleteModal6')
                     ->press('Confirm')
                     ->waitForLocation($data['path']['blog'])
-                    ->assertSee('Delete blog success !');
+                    ->assertSee('Delete blog success !')
+                    ->assertDontSee('user can delete title c');
         });
     }
 
@@ -502,10 +506,12 @@ class BlogManageTest extends DuskTestCase
             $browser->visit($data['path']['login'])
                     ->loginAs($user)
                     ->visit($data['path']['blog'])
+                    ->assertSee('user can delete title b')
                     ->click('#blog-delete-5')
                     ->waitFor('#deleteModal5')
                     ->press('Close')
-                    ->assertPathIs($data['path']['blog']);
+                    ->assertPathIs($data['path']['blog'])
+                    ->assertSee('user can delete title b');
         });
     }
 
@@ -523,10 +529,12 @@ class BlogManageTest extends DuskTestCase
             $browser->visit($data['path']['login'])
                     ->loginAs($user)
                     ->visit($data['path']['blog'])
+                    ->assertSee('user can delete title b')
                     ->click('#blog-delete-5')
                     ->waitFor('#deleteModal5')
                     ->click('#wrapper')
-                    ->assertPathIs($data['path']['blog']);
+                    ->assertPathIs($data['path']['blog'])
+                    ->assertSee('user can delete title b');
         });
     }
 
