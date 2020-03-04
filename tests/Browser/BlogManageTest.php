@@ -27,6 +27,22 @@ class BlogManageTest extends DuskTestCase
     }
     
     /**
+     * User browser login blog
+     *
+     * @return void
+     */
+    function LoginBlog($user, $data)
+    {
+        return $this->browse(function ($browser) use ($user, $data) {
+            $browser->visit($data['path']['login'])
+                    ->loginAs($user)
+                    ->visit($data['path']['blog']);
+
+            return $browser;
+        });
+    }
+
+    /**
      * Test login blog with user can see blog.
      * case 1.1: Test screen Blog list
      *
@@ -36,11 +52,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->assertPathIs($data['path']['blog']);
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->assertPathIs($data['path']['blog']);
         });
     }
 
@@ -54,17 +68,15 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->press('Create Blog')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) {
+            $browser->press('Create Blog')
                     ->waitFor('#createModal')
                     ->assertPresent('#createModal');
         });
     }
 
-     /**
+    /**
      * Test screen Edit blog by user.
      * case 1.3: Edit blog: Test screen Edit blog by user
      *
@@ -74,12 +86,13 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) {
+            $browser->assertSee('user can see title b')
                     ->click('#blog-edit-2')
-                    ->assertPathIs('/blog/2/edit');
+                    ->assertPathIs('/blog/2/edit')
+                    ->assertSeeIn('#blog_id','user can see title b')
+                    ->assertSeeIn('#blog-content', 'content');
         });
     }
 
@@ -93,11 +106,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->click('#blog-delete-5')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) {
+            $browser->click('#blog-delete-5')
                     ->waitFor('#deleteModal5')
                     ->assertSee('Delete this blog?');
         });
@@ -113,11 +124,10 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCannotSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->assertPathIsNot($data['path']['blog']);
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->assertPathIs($data['path']['user'])
+                    ->assertSee("you can't to enter blog manage");
         });
     }
 
@@ -131,11 +141,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
+        $browser = $this->LoginBlog($user, $data);
         $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->assertDontSee('Delete');
+            $browser->assertDontSee('Delete');
         });
     }
 
@@ -150,10 +158,10 @@ class BlogManageTest extends DuskTestCase
         $user = $this->userCanSee();
         $data = $this->getDataTest();
         $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
+            $browser->loginAs($user)
                     ->visit('/urlkhongtontai')
-                    ->assertSee('404');
+                    ->assertSeeIn('.code','404')
+                    ->assertSeeIn('.message', 'Not Found');
         });
     }
 
@@ -167,11 +175,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->press('Create Blog')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->press('Create Blog')
                     ->waitFor('#createModal')
                     ->type('title', 'Lốc bụi cao 650 m trên sao Hỏa')
                     ->script("CKEDITOR.instances['blog-content'].setData('content');");
@@ -195,11 +201,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->press('Create Blog')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->press('Create Blog')
                     ->waitFor('#createModal')
                     ->type('title', 'Lốc')
                     ->script("CKEDITOR.instances['blog-content'].setData('content');");
@@ -208,7 +212,7 @@ class BlogManageTest extends DuskTestCase
                     ->press('Submit')
                     ->waitForLocation($data['path']['blog'])
                     ->assertSee('The title must be at least 5 characters.')
-                    ->assertDontSee('Lốc bụi');
+                    ->assertDontSee('Lốc');
         });
     }
 
@@ -223,23 +227,21 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
+        $browser = $this->LoginBlog($user, $data);
         $this->browse(function ($browser) use ($user, $data) {
             //string over 100 character
-            $textOver100 = str_repeat('a', 101);
+            $textTitleOver100 = str_repeat('a', 101);
 
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->press('Create Blog')
+            $browser->press('Create Blog')
                     ->waitFor('#createModal')
-                    ->type('title', $textOver100)
+                    ->type('title', $textTitleOver100)
                     ->script("CKEDITOR.instances['blog-content'].setData('content');");
 
             $browser->waitForText('Submit')
                     ->press('Submit')
                     ->waitForLocation($data['path']['blog'])
                     ->assertSee('The title may not be greater than 100 characters.')
-                    ->assertDontSee($textOver100);
+                    ->assertDontSee($textTitleOver100);
         });
     }
 
@@ -254,11 +256,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
+        $browser = $this->LoginBlog($user, $data);
         $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->press('Create Blog')
+            $browser->press('Create Blog')
                     ->waitFor('#createModal')
                     ->waitForText('Submit')
                     ->press('Submit')
@@ -279,17 +279,16 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->press('Create Blog')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->press('Create Blog')
                     ->waitFor('#createModal')
-                    ->type('title', 'new title')
+                    ->type('title', 'Các lệnh git cơ bản')
                     ->waitForText('Submit')
                     ->press('Submit')
                     ->waitForLocation($data['path']['blog'])
-                    ->assertSee('The content field is required.');
+                    ->assertSee('The content field is required.')
+                    ->assertDontSee('Các lệnh git cơ bản');
         });
     }
 
@@ -304,11 +303,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->press('Create Blog')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->press('Create Blog')
                     ->waitFor('#createModal')
                     ->type('title', '')
                     ->script("CKEDITOR.instances['blog-content'].setData('content');");
@@ -330,11 +327,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->assertSee('user can see title b')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->assertSee('user can see title b')
                     ->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
                     ->type('title', 'user can see title b edit')
@@ -356,11 +351,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->click('#blog-edit-2')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) {
+            $browser->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
                     ->type('title', '')
                     ->script("CKEDITOR.instances['content'].setData('');");
@@ -381,11 +374,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->click('#blog-edit-2')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) {
+            $browser->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
                     ->type('title', 'user can see title b edit')
                     ->script("CKEDITOR.instances['content'].setData('');");
@@ -405,11 +396,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->click('#blog-edit-2')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) {
+            $browser->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
                     ->type('title', '')
                     ->script("CKEDITOR.instances['content'].setData('content edit');");
@@ -430,17 +419,17 @@ class BlogManageTest extends DuskTestCase
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
         $this->browse(function ($browser1, $browser2) use ($user, $data) {
-            $browser1->visit($data['path']['login'])
-                    ->loginAs($user)
+            $browser1->loginAs($user)
                     ->visit($data['path']['blog']);
-            $browser2->visit($data['path']['login'])
-                    ->loginAs($user)
+
+            $browser2->loginAs($user)
                     ->visit($data['path']['blog'])
                     ->click('#blog-delete-4')
                     ->waitFor('#deleteModal4')
                     ->press('Confirm')
                     ->waitForLocation($data['path']['blog'])
                     ->waitForText('Delete blog success !');
+
             $browser1->click('#blog-edit-4')
                     ->assertSee('Blog not found !');
         });
@@ -456,11 +445,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->click('#blog-edit-2')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
                     ->press('Submit')
                     ->assertPathIs($data['path']['blog'])
@@ -478,11 +465,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->assertSee('user can delete title c')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->assertSee('user can delete title c')
                     ->click('#blog-delete-6')
                     ->waitFor('#deleteModal6')
                     ->press('Confirm')
@@ -502,11 +487,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->assertSee('user can delete title b')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->assertSee('user can delete title b')
                     ->click('#blog-delete-5')
                     ->waitFor('#deleteModal5')
                     ->press('Close')
@@ -525,11 +508,9 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
-        $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog'])
-                    ->assertSee('user can delete title b')
+        $browser = $this->LoginBlog($user, $data);
+        $this->browse(function ($browser) use ($data) {
+            $browser->assertSee('user can delete title b')
                     ->click('#blog-delete-5')
                     ->waitFor('#deleteModal5')
                     ->click('#wrapper')
@@ -549,20 +530,22 @@ class BlogManageTest extends DuskTestCase
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
         $this->browse(function ($browser1, $browser2) use ($user, $data) {
-            $browser1->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog']);
-            $browser2->visit($data['path']['login'])
-                    ->loginAs($user)
+            $browser1->loginAs($user)
                     ->visit($data['path']['blog'])
+                    ->assertSee('user can delete title b')
+                    ->click('#blog-delete-4')
+                    ->waitFor('#deleteModal4');
+
+            $browser2->loginAs($user)
+                    ->visit($data['path']['blog'])
+                    ->assertSee('user can delete title b')
                     ->click('#blog-delete-4')
                     ->waitFor('#deleteModal4')
                     ->press('Confirm')
                     ->waitForLocation($data['path']['blog'])
                     ->waitForText('Delete blog success !');
-            $browser1->click('#blog-delete-4')
-                    ->waitFor('#deleteModal4')
-                    ->press('Confirm')
+
+            $browser1->press('Confirm')
                     ->waitForLocation($data['path']['blog'])
                     ->assertSee('Blog not found !');
         });
