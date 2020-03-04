@@ -104,6 +104,7 @@ class UserTest extends DuskTestCase
     {
         $admin = $this->accountAdmin();
         $data = $this->getDataTest();
+
         $this->browse(function (Browser $browser) use ($admin, $data) {
             $browser->loginAs($admin)
                 ->visit($data['path']['listUser'])
@@ -124,6 +125,7 @@ class UserTest extends DuskTestCase
     {
         $admin = $this->accountAdmin();
         $data = $this->getDataTest();
+
         $this->browse(function (Browser $browser) use ($admin, $data) {
             $browser->loginAs($admin)
                 ->visit($data['path']['listUser'])

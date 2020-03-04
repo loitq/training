@@ -6,7 +6,7 @@ return [
         'login' => '/login',
         'user'  => '/',
         'listUser' => '/admin/user/list',
-        'createUser' => '/admin/user/create',
+        'createUser' => '/admin/user/create'
     ], 
     'email' => [
         'user' => 'user@lifull-tech.vn',
