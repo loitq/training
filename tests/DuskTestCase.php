@@ -6,6 +6,7 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\TestCase as BaseTestCase;
+use App\User;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -40,5 +41,41 @@ abstract class DuskTestCase extends BaseTestCase
                 ChromeOptions::CAPABILITY, $options
             )
         );
+    }
+
+    /**
+     * Create user can see blog.
+     *
+     * @return object $user
+     */
+    public function userCanSee()
+    {
+        $user = User::where('name', '=', 'user_can_see')->first();
+        
+        return $user;
+    }
+
+    /**
+     * Create user can't see blog.
+     *
+     * @return object $user
+     */
+    public function userCannotSee()
+    {
+        $user = User::where('name', '=', 'user_can_not_see')->first();
+        
+        return $user;
+    }
+
+    /**
+     * Create user can see and delete blog
+     *
+     * @return object $user
+     */
+    public function userCanSeeAndDelete()
+    {
+        $user = User::where('name', '=', 'user_can_see_delete')->first();
+        
+        return $user;
     }
 }

@@ -4,7 +4,8 @@ return [
     'path' => [
         'admin' => '/admin',
         'login' => '/login',
-        'user'  => '/'
+        'user'  => '/',
+        'blog'  => '/blog'
     ], 
     'email' => [
         'user' => 'user@lifull-tech.vn',
