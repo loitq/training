@@ -31,14 +31,14 @@ class BlogManageTest extends DuskTestCase
      *
      * @return void
      */
-    function LoginBlog($user, $data)
+    function setUpLoginBlog($user, $data)
     {
         return $this->browse(function ($browser) use ($user, $data) {
-            $browser->visit($data['path']['login'])
-                    ->loginAs($user)
-                    ->visit($data['path']['blog']);
+                    $browser->visit($data['path']['login'])
+                            ->loginAs($user)
+                            ->visit($data['path']['blog']);
 
-            return $browser;
+                    return $browser;
         });
     }
 
@@ -52,7 +52,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->assertPathIs($data['path']['blog']);
         });
@@ -68,7 +68,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) {
             $browser->press('Create Blog')
                     ->waitFor('#createModal')
@@ -86,12 +86,12 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) {
             $browser->assertSee('user can see title b')
                     ->click('#blog-edit-2')
                     ->assertPathIs('/blog/2/edit')
-                    ->assertSeeIn('#blog_id','user can see title b')
+                    ->assertSeeIn('#blog_id', 'user can see title b')
                     ->assertSeeIn('#blog-content', 'content');
         });
     }
@@ -106,7 +106,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) {
             $browser->click('#blog-delete-5')
                     ->waitFor('#deleteModal5')
@@ -124,7 +124,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCannotSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->assertPathIs($data['path']['user'])
                     ->assertSee("you can't to enter blog manage");
@@ -141,7 +141,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($user, $data) {
             $browser->assertDontSee('Delete');
         });
@@ -160,7 +160,7 @@ class BlogManageTest extends DuskTestCase
         $this->browse(function ($browser) use ($user, $data) {
             $browser->loginAs($user)
                     ->visit('/urlkhongtontai')
-                    ->assertSeeIn('.code','404')
+                    ->assertSeeIn('.code', '404')
                     ->assertSeeIn('.message', 'Not Found');
         });
     }
@@ -175,7 +175,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->press('Create Blog')
                     ->waitFor('#createModal')
@@ -201,7 +201,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->press('Create Blog')
                     ->waitFor('#createModal')
@@ -227,7 +227,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($user, $data) {
             //string over 100 character
             $textTitleOver100 = str_repeat('a', 101);
@@ -256,7 +256,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($user, $data) {
             $browser->press('Create Blog')
                     ->waitFor('#createModal')
@@ -279,7 +279,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->press('Create Blog')
                     ->waitFor('#createModal')
@@ -303,7 +303,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->press('Create Blog')
                     ->waitFor('#createModal')
@@ -327,7 +327,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->assertSee('user can see title b')
                     ->click('#blog-edit-2')
@@ -351,7 +351,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) {
             $browser->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
@@ -374,7 +374,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) {
             $browser->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
@@ -396,7 +396,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) {
             $browser->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
@@ -445,7 +445,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSee();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->click('#blog-edit-2')
                     ->waitForLocation('/blog/2/edit')
@@ -465,7 +465,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->assertSee('user can delete title c')
                     ->click('#blog-delete-6')
@@ -487,7 +487,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->assertSee('user can delete title b')
                     ->click('#blog-delete-5')
@@ -508,7 +508,7 @@ class BlogManageTest extends DuskTestCase
     {
         $user = $this->userCanSeeAndDelete();
         $data = $this->getDataTest();
-        $browser = $this->LoginBlog($user, $data);
+        $browser = $this->setUpLoginBlog($user, $data);
         $this->browse(function ($browser) use ($data) {
             $browser->assertSee('user can delete title b')
                     ->click('#blog-delete-5')
