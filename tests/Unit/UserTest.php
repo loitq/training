@@ -56,12 +56,13 @@ class UserTest extends TestCase
             'can_see' => \App\User::IS_TRUE,
             'can_delete' => \App\User::IS_TRUE,
         ];
+
         $response = $this->post(route('admin.user.handleCreate'), $params)
             ->assertSessionHas('message', 'Create user success !')
             ->assertRedirect();
     }
 
-    /** 
+    /**
      * Test function create user with checkbox can see true
      * case 2-2
      * 

@@ -116,7 +116,7 @@ class UserTest extends DuskTestCase
 
     /**
      * Checkbox no check and not submit
-     * Case 2.12
+     * Case 2-12
      * 
      * @return void
      */
@@ -137,7 +137,7 @@ class UserTest extends DuskTestCase
 
     /**
      * Checkbox checked but not submit
-     * Case 2.13
+     * Case 2-13
      * 
      * @return void
      */
