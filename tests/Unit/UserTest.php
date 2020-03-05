@@ -65,7 +65,7 @@ class UserTest extends TestCase
     /**
      * Test function create user with checkbox can see true
      * case 2-2
-     * 
+     *
      * @return void
      */
     public function testCreateUserCheckboxCanSeeTrue()
@@ -85,7 +85,7 @@ class UserTest extends TestCase
             ->assertRedirect();
     }
 
-    /** 
+    /**
      * Test function create user with checkbox can delete true
      * case 2-3
      *
@@ -108,7 +108,7 @@ class UserTest extends TestCase
             ->assertRedirect();
     }
 
-    /** 
+    /**
      * Test function create user with all checkbox false
      * case 2-4
      *
@@ -131,7 +131,7 @@ class UserTest extends TestCase
             ->assertRedirect();
     }
 
-    /** 
+    /**
      * Test function create user with username empty
      * case 2-5
      *
@@ -154,7 +154,7 @@ class UserTest extends TestCase
             ->assertSessionHasErrors('username');
     }
 
-    /** 
+    /**
      * Test function create user with email empty
      * case 2-6
      *
@@ -177,7 +177,7 @@ class UserTest extends TestCase
             ->assertSessionHasErrors('email');
     }
 
-    /** 
+    /**
      * Test function create user with password empty
      * case 2-7
      *
@@ -223,10 +223,9 @@ class UserTest extends TestCase
             ->assertSessionHasErrors('email')
             ->assertSessionHasErrors('username')
             ->assertSessionHasErrors('password');
-
     }
 
-    /** 
+    /**
      * Test function update user with checkbox can delete true
      * case 2-9
      *
@@ -247,7 +246,7 @@ class UserTest extends TestCase
         $response->getSession()->flash('message', 'Edit user success !');
     }
 
-    /** 
+    /**
      * Test function update user with checkbox can see true
      * case 2-10
      *
@@ -268,7 +267,7 @@ class UserTest extends TestCase
         $response->getSession()->flash('message', 'Edit user success !');
     }
 
-    /** 
+    /**
      * Test function update user with all checbox false
      * case 2-11
      *
@@ -292,6 +291,7 @@ class UserTest extends TestCase
     /**
      * Test delete user with id not found
      * case 2-16
+     *
      * @return void
      */
     public function testDeleteuserWithIdNotFound()

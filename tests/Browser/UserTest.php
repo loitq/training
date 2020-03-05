@@ -21,7 +21,7 @@ class UserTest extends DuskTestCase
     }
 
     /**
-     * Get data from cogfig to test.
+     * Get data from config to test.
      * 
      * @return array
      */
@@ -33,6 +33,7 @@ class UserTest extends DuskTestCase
     /**
      * Admin logged go to dashboard
      * case 1-1
+     * 
      * @return void
      */
     public function testLoginToPageAdmin()
@@ -58,8 +59,8 @@ class UserTest extends DuskTestCase
 
     /**
      * Admin redirect to page create user
-     * Case 1-2
-     * 
+     * case 1-2
+     *
      * @return void
      */
     public function testClickMenuToPageCreate()
@@ -77,8 +78,8 @@ class UserTest extends DuskTestCase
 
     /**
      * Admin redirect to page edit user
-     * Case 1-3
-     * 
+     * case 1-3
+     *
      * @return void
      */
     public function testClickMenuToPageEdit()
@@ -116,7 +117,7 @@ class UserTest extends DuskTestCase
 
     /**
      * Checkbox no check and not submit
-     * Case 2-12
+     * case 2-12
      * 
      * @return void
      */
@@ -137,8 +138,8 @@ class UserTest extends DuskTestCase
 
     /**
      * Checkbox checked but not submit
-     * Case 2-13
-     * 
+     * case 2-13
+     *
      * @return void
      */
     public function testNotSubmitWithCheckboxAll()
