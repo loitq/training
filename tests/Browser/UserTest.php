@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\User;
+
 class UserTest extends DuskTestCase
 {
     /**
@@ -22,7 +23,7 @@ class UserTest extends DuskTestCase
 
     /**
      * Get data from config to test.
-     * 
+     *
      * @return array
      */
     public function getDataTest()
@@ -33,7 +34,7 @@ class UserTest extends DuskTestCase
     /**
      * Admin logged go to dashboard
      * case 1-1
-     * 
+     *
      * @return void
      */
     public function testLoginToPageAdmin()
@@ -118,7 +119,7 @@ class UserTest extends DuskTestCase
     /**
      * Checkbox no check and not submit
      * case 2-12
-     * 
+     *
      * @return void
      */
     public function testNotSubmitWithCheckboxAllNoCheck()
@@ -201,4 +202,3 @@ class UserTest extends DuskTestCase
         });
     }
 }
-

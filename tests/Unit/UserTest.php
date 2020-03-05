@@ -18,7 +18,7 @@ class UserTest extends TestCase
      *
      * @return $admin
      */
-    public  function accountAdmin()
+    public function accountAdmin()
     {
         $admin = factory(User::class)->create(['role' => \App\User::ADMIN]);
         $this->actingAs($admin);
