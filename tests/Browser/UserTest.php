@@ -95,7 +95,92 @@ class UserTest extends DuskTestCase
     }
 
     /**
-     * Admin delete user
+     * Admin show popup delete user
+     * case 1-4
+     *
+     * @return void
+     */
+    public function testPopupDeleteUser()
+    {
+        $admin = $this->accountAdmin();
+        $data = $this->getDataTest();
+
+        $this->browse(function (Browser $browser) use ($admin, $data) {
+            $browser->loginAs($admin)
+                ->visit($data['path']['listUser'])
+                ->click('@deleteModal2')
+                ->waitFor('#myModal2')
+                ->assertSee('Are you sure you want to delete');
+        });
+    }
+
+    /**
+     * Checkbox no check and not submit
+     * Case 2.12
+     * 
+     * @return void
+     */
+    public function testNotSubmitWithCheckboxAllNoCheck()
+    {
+        $admin = $this->accountAdmin();
+        $data = $this->getDataTest();
+
+        $this->browse(function (Browser $browser) use ($admin, $data) {
+            $browser->loginAs($admin)
+                ->visit($data['path']['listUser'])
+                ->click('@editUser2')
+                ->check('can_see', null)
+                ->check('can_delete', null)
+                ->assertPathIs('/admin/user/edit/2');
+        });
+    }
+
+    /**
+     * Checkbox checked but not submit
+     * Case 2.13
+     * 
+     * @return void
+     */
+    public function testNotSubmitWithCheckboxAll()
+    {
+        $admin = $this->accountAdmin();
+        $data = $this->getDataTest();
+
+        $this->browse(function (Browser $browser) use ($admin, $data) {
+            $browser->loginAs($admin)
+                ->visit($data['path']['listUser'])
+                ->click('@editUser2')
+                ->check('can_see')
+                ->check('can_delete')
+                ->assertPathIs('/admin/user/edit/2');
+        });
+    }
+
+    /**
+     * Admin delete user, press key Yes
+     * case 2-14
+     *
+     * @return void
+     */
+    public function testDeleteUser()
+    {
+        $admin = $this->accountAdmin();
+        $data = $this->getDataTest();
+
+        $this->browse(function (Browser $browser) use ($admin, $data) {
+            $browser->loginAs($admin)
+                ->visit($data['path']['listUser'])
+                ->click('@deleteModal2')
+                ->waitFor('#myModal2')
+                ->assertSee('Are you sure you want to delete')
+                ->press('Yes')
+                ->waitForLocation($data['path']['listUser'])
+                ->assertSee('Delete account success !');
+        });
+    }
+
+    /**
+     * Admin delete user, press key No
      * case 2-15
      *
      * @return void
@@ -112,28 +197,6 @@ class UserTest extends DuskTestCase
                 ->waitFor('#myModal2')
                 ->press('No')
                 ->assertPathIs($data['path']['listUser']);
-        });
-    }
-
-    /**
-     * Admin delete user
-     * case 1-4 + 2.12
-     *
-     * @return void
-     */
-    public function testPopupDeleteUser()
-    {
-        $admin = $this->accountAdmin();
-        $data = $this->getDataTest();
-
-        $this->browse(function (Browser $browser) use ($admin, $data) {
-            $browser->loginAs($admin)
-                ->visit($data['path']['listUser'])
-                ->click('@deleteModal2')
-                ->waitFor('#myModal2')
-                ->press('Yes')
-                ->waitForLocation($data['path']['listUser'])
-                ->assertSee('Delete account success !');
         });
     }
 }

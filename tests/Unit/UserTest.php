@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-// use PHPUnit\Framework\TestCase;
 use Tests\Testcase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -57,8 +56,9 @@ class UserTest extends TestCase
             'can_see' => \App\User::IS_TRUE,
             'can_delete' => \App\User::IS_TRUE,
         ];
-        $response = $this->post(route('admin.user.handleCreate'), $params);
-        $response->assertRedirect();
+        $response = $this->post(route('admin.user.handleCreate'), $params)
+            ->assertSessionHas('message', 'Create user success !')
+            ->assertRedirect();
     }
 
     /** 
@@ -79,8 +79,9 @@ class UserTest extends TestCase
             'can_delete' => \App\User::IS_FALSE,
         ];
 
-        $response = $this->post(route('admin.user.handleCreate'), $params);
-        $response->assertRedirect();
+        $response = $this->post(route('admin.user.handleCreate'), $params)
+            ->assertSessionHas('message', 'Create user success !')
+            ->assertRedirect();
     }
 
     /** 
@@ -101,8 +102,9 @@ class UserTest extends TestCase
             'can_delete' => \App\User::IS_TRUE,
         ];
 
-        $response = $this->post(route('admin.user.handleCreate'), $params);
-        $response->assertRedirect();
+        $response = $this->post(route('admin.user.handleCreate'), $params)
+            ->assertSessionHas('message', 'Create user success !')
+            ->assertRedirect();
     }
 
     /** 
@@ -123,8 +125,9 @@ class UserTest extends TestCase
             'can_delete' => \App\User::IS_FALSE,
         ];
 
-        $response = $this->post(route('admin.user.handleCreate'), $params);
-        $response->assertRedirect();
+        $response = $this->post(route('admin.user.handleCreate'), $params)
+            ->assertSessionHas('message', 'Create user success !')
+            ->assertRedirect();
     }
 
     /** 
@@ -184,7 +187,7 @@ class UserTest extends TestCase
         $admin = $this->accountAdmin();
 
         $params = [
-            'email' => '',
+            'email' => 'loitq1@lifull@tech.vn',
             'username' => 'Phan Tuan',
             'password' => '',
             'can_see' => \App\User::IS_FALSE,
@@ -219,6 +222,7 @@ class UserTest extends TestCase
             ->assertSessionHasErrors('email')
             ->assertSessionHasErrors('username')
             ->assertSessionHasErrors('password');
+
     }
 
     /** 
@@ -237,8 +241,9 @@ class UserTest extends TestCase
         ];
 
         $user = factory('App\User')->create();
-        $this->post('user/edit'.$user->id, $params);
+        $response = $this->post('admin/user/edit/'. $user->id, $params);
         $this->assertDatabaseHas('users', ['id'=> $user->id]);
+        $response->getSession()->flash('message', 'Edit user success !');
     }
 
     /** 
@@ -257,8 +262,9 @@ class UserTest extends TestCase
         ];
 
         $user = factory('App\User')->create();
-        $this->post('user/edit'.$user->id, $params);
+        $response = $this->post('admin/user/edit/'.$user->id, $params);
         $this->assertDatabaseHas('users', ['id'=> $user->id]);
+        $response->getSession()->flash('message', 'Edit user success !');
     }
 
     /** 
@@ -277,46 +283,9 @@ class UserTest extends TestCase
         ];
 
         $user = factory('App\User')->create();
-        $this->post('user/edit'.$user->id, $params);
+        $response = $this->post('admin/user/edit/'.$user->id, $params);
         $this->assertDatabaseHas('users', ['id'=> $user->id]);
-    }
-
-    /**
-     * Test function update user with all checbox true
-     * case 2-13
-     *
-     * @return void
-     */
-    public function testUpdateUserAllCheckboxTrue()
-    {
-        $admin = $this->accountAdmin();
-
-        $params = [
-            'can_see' => \App\User::IS_TRUE,
-            'can_delete' => \App\User::IS_TRUE,
-        ];
-
-        $user = factory('App\User')->create();
-        $this->post('user/edit'.$user->id, $params);
-        $this->assertDatabaseHas('users', ['id'=> $user->id]);
-    }
-
-    /**
-     * Test function delete user 
-     * case 2-14
-     *
-     * @return void
-     */
-    public function testDeleteUser()
-    {
-        $admin = $this->accountAdmin();
-
-        $user = factory(User::class)->create();
-        $response = $this->post('/user/delete/'. $user->id);
-        $this->assertDatabaseMissing(
-            'users', ['id' => $user->id, 'updated_at' => null
-            ]
-        );
+        $response->getSession()->flash('message', 'Edit user success !');
     }
 
     /**
@@ -330,7 +299,7 @@ class UserTest extends TestCase
 
         $user = factory(User::class)->create();
         $idNotFound = !($user->id);
-        $response = $this->post('/user/delete/'. $idNotFound);
+        $response = $this->post('admin/user/delete/'. $idNotFound);
         $response->assertStatus(404);
     }
 }
